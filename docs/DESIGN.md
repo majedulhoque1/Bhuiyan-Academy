@@ -10,10 +10,10 @@ Direction: **"Chambers, not campus."** Quiet legal heritage, British law-printin
   --ink:#1C1A17; --parchment:#F4EFE6; --paper:#FBF8F2;
   --gold:#B08D57; --gold-soft:#D9C7A3; --slate:#6E6A63; --line:#DDD5C6;
   --ok:#3E6B4A; --warn:#9A6A1C; --due:#8C2F2F;           /* portal badges only, desaturated */
-  --font-display:"Libre Caslon Display",Georgia,serif;
-  --font-serif:"Libre Caslon Text",Georgia,serif;
-  --font-body:"Golos Text",system-ui,sans-serif;
-  --font-mono:"Azeret Mono",ui-monospace,monospace;
+  --font-display:"Source Serif 4",Georgia,serif;
+  --font-serif:"Source Serif 4",Georgia,serif;
+  --font-body:"Source Sans 3",system-ui,sans-serif;
+  --font-mono:"Source Sans 3",system-ui,sans-serif; /* no monospace anywhere */
   --ease-out:cubic-bezier(0.16,1,0.3,1);
   --dur-reveal:700ms; --dur-hover:200ms;
   --radius-s:4px; --radius-m:8px; --radius-l:14px;
@@ -21,7 +21,7 @@ Direction: **"Chambers, not campus."** Quiet legal heritage, British law-printin
   --shadow:0 18px 40px -24px rgba(74,17,24,.35);     /* claret-tinted, never black */
 }
 ```
-Google Fonts: `Libre+Caslon+Display`, `Libre+Caslon+Text:ital,wght@0,400;0,700;1,400`, `Golos+Text:wght@400;500;600`, `Azeret+Mono:wght@400;500`. Preconnect + `display=swap`.
+Google Fonts: `Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400`, `Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400`. Revised 2026-11-13: Majedul said the Libre Caslon Display + Azeret Mono pairing looked "vibe coded"; headings are now Source Serif 4 semibold, labels are Source Sans 3 uppercase at .06–.07em tracking, numbers use tabular lining figures.
 
 Never: pure white page bg, pure black text, Inter, Instrument Serif, Fraunces, Lucide icons, blue links, box-shadow with black, gradients other than the footer wash, more than one accent (gold is the accent; claret is the brand colour, not an accent).
 

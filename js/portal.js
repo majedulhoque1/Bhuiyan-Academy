@@ -274,18 +274,28 @@
       return '<li class="stat"><span class="stat__label">' + r[0] + '</span><span><span class="stat__value">' + r[1] +
         '</span><span class="stat__note">' + r[2] + '</span></span></li>';
     }).join('');
-    $('[data-mount="statement"]').innerHTML = '<div class="table-wrap"><table class="data"><thead><tr><th>Instalment</th><th>Due date</th>' +
-      '<th class="num">Amount</th><th>Paid on</th><th>Status</th></tr></thead><tbody>' +
-      inst.map(function (x) {
-        var d = daysUntil(x.date), sub = '';
-        if (x.status === 'paid' && x.receipt) { sub = '<span class="data__sub">Receipt ' + esc(x.receipt) + '</span>'; }
-        else if (x.status === 'due' && d >= 0) { sub = '<span class="data__sub">In ' + plural(d, 'day', 'days') + '</span>'; }
-        return '<tr><td>Instalment ' + x.no + sub + '</td><td class="num">' + fmtDate(x.date) + '</td>' +
-          '<td class="num">' + fmtBDT(x.amount) + '</td><td class="num">' + (x.status === 'paid' ? fmtDate(x.date) : '-') + '</td>' +
-          '<td>' + badge(x.status) + '</td></tr>';
-      }).join('') +
-      '</tbody><tfoot><tr><th scope="row" colspan="2">Total</th><td class="num">' + fmtBDT(total) + '</td>' +
-      '<td class="num">Paid ' + fmtBDT(paid) + '</td><td class="num">Due ' + fmtBDT(total - paid) + '</td></tr></tfoot></table></div>';
+    var pct = total ? Math.round(paid / total * 100) : 0;
+    var STATUS_LINE = {
+      paid: function (x) { return 'Paid ' + fmtDate(x.date) + (x.receipt ? ' · Receipt ' + esc(x.receipt) : ''); },
+      due: function (x) { var d = daysUntil(x.date); return d >= 0 ? 'Due in ' + plural(d, 'day', 'days') : 'Overdue by ' + plural(-d, 'day', 'days'); },
+      overdue: function (x) { return 'Overdue since ' + fmtDate(x.date); },
+      upcoming: function () { return 'Not yet due'; }
+    };
+    $('[data-mount="statement"]').innerHTML =
+      '<div class="feebar" role="img" aria-label="' + pct + ' percent of this year’s fee paid">' +
+        '<div class="feebar__track"><span class="feebar__fill" style="width:' + pct + '%"></span></div>' +
+        '<p class="feebar__text"><strong>' + fmtBDT(paid) + '</strong> paid of ' + fmtBDT(total) + ' · ' + pct + '%</p>' +
+      '</div>' +
+      '<ol class="inst">' + inst.map(function (x) {
+        var line = (STATUS_LINE[x.status] || STATUS_LINE.upcoming)(x);
+        return '<li class="inst__row inst__row--' + x.status + '">' +
+          '<div class="inst__main"><p class="inst__title">Instalment ' + x.no + '</p>' +
+          '<p class="inst__due">Due ' + fmtDate(x.date) + '</p></div>' +
+          '<p class="inst__status">' + line + '</p>' +
+          '<div class="inst__money"><span class="inst__amount">' + fmtBDT(x.amount) + '</span>' + badge(x.status) + '</div>' +
+          '</li>';
+      }).join('') + '</ol>' +
+      '<div class="inst__total"><span>Outstanding</span><strong>' + fmtBDT(total - paid) + '</strong></div>';
   };
 
   var resFilter = 'all';

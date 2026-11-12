@@ -6,10 +6,10 @@
   --ink:#1C1A17; --parchment:#F4EFE6; --paper:#FBF8F2;
   --gold:#B08D57; --gold-soft:#D9C7A3; --slate:#6E6A63; --line:#DDD5C6;
   --ok:#3E6B4A; --warn:#9A6A1C; --due:#8C2F2F;           /* portal badges only, desaturated */
-  --font-display:"Libre Caslon Display",Georgia,serif;
-  --font-serif:"Libre Caslon Text",Georgia,serif;
-  --font-body:"Golos Text",system-ui,sans-serif;
-  --font-mono:"Azeret Mono",ui-monospace,monospace;
+  --font-display:"Source Serif 4",Georgia,serif;
+  --font-serif:"Source Serif 4",Georgia,serif;
+  --font-body:"Source Sans 3",system-ui,sans-serif;
+  --font-mono:"Source Sans 3",system-ui,sans-serif;
   --ease-out:cubic-bezier(0.16,1,0.3,1);
   --dur-reveal:700ms; --dur-hover:200ms;
   --radius-s:4px; --radius-m:8px; --radius-l:14px;
