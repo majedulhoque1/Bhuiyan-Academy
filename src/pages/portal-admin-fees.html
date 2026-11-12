@@ -1,0 +1,48 @@
+<!--
+title: Fees and receipts
+description: Staff portal: fee dues, payments and receipts.
+layout: portal
+portal_title: Fees and receipts
+-->
+<script src="/js/portal-seed.js"></script>
+<section data-reveal>
+  <div class="page-head reveal-child">
+    <h2 class="page-head__title">Fees and receipts</h2>
+    <p class="page-head__lead">Sample figures only. They are not the Academy's fees.</p>
+  </div>
+  <div class="pgrid">
+    <section class="panel p-5 reveal-child" aria-labelledby="fee-glance">
+      <div class="panel__head"><h3 class="panel__title" id="fee-glance">At a glance</h3></div>
+      <ul class="stats" data-mount="fee-stats"></ul>
+    </section>
+    <section class="panel p-7 reveal-child" aria-labelledby="pay-new">
+      <div class="panel__head"><h3 class="panel__title" id="pay-new">Record a payment</h3></div>
+      <form data-form-payment novalidate>
+        <div class="field">
+          <label class="field__label" for="pay-student">Student</label>
+          <select class="field__input" id="pay-student" name="student" data-student-options></select>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label class="field__label" for="pay-amount">Amount (Tk)</label>
+            <input class="field__input" id="pay-amount" name="amount" type="number" min="1" step="1" inputmode="numeric">
+            <p class="field__error" data-error-for="amount" hidden></p>
+          </div>
+          <div class="field">
+            <label class="field__label" for="pay-method">Method</label>
+            <select class="field__input" id="pay-method" name="method"><option>Cash</option><option>bKash</option><option>Bank</option></select>
+          </div>
+        </div>
+        <button class="btn btn--primary" type="submit">Record and make receipt</button>
+      </form>
+    </section>
+    <section class="panel p-12 reveal-child" aria-labelledby="dues">
+      <div class="panel__head"><h3 class="panel__title" id="dues">Dues</h3><span class="panel__meta" data-count></span></div>
+      <div data-mount="dues"></div>
+    </section>
+    <section class="panel p-12 reveal-child" aria-labelledby="receipts">
+      <div class="panel__head"><h3 class="panel__title" id="receipts">Receipts</h3><span class="panel__meta" data-mount="receipt-total"></span></div>
+      <div data-mount="receipts"></div>
+    </section>
+  </div>
+</section>

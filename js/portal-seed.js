@@ -1,5 +1,5 @@
 window.BA_SEED = {
- "_note": "Fictional demo data. No real student, faculty or scholarship-holder names. Module list is indicative.",
+ "_note": "Fictional demo data. No real student, faculty or scholarship-holder names. Module list is indicative. Office figures (balances, receipts, attendance, inquiries) are sample figures, not the Academy's fees.",
  "student": {
   "name": "Tasnim Rahman",
   "id": "BA-25-0417",
@@ -17,7 +17,13 @@ window.BA_SEED = {
    "programme": "LLB (Hons), University of London",
    "batch": "LLB-2025B",
    "feeStatus": "due",
-   "phone": "01712-604 381"
+   "phone": "01712-604 381",
+   "attendance": 94,
+   "dueAmount": 48750,
+   "guardian": {
+    "relation": "Father",
+    "phone": "01742-604381"
+   }
   },
   {
    "id": "BA-25-0402",
@@ -26,7 +32,13 @@ window.BA_SEED = {
    "programme": "LLB (Hons), University of London",
    "batch": "LLB-2025B",
    "feeStatus": "paid",
-   "phone": "01819-2740 55"
+   "phone": "01819-2740 55",
+   "attendance": 88,
+   "dueAmount": 0,
+   "guardian": {
+    "relation": "Mother",
+    "phone": "01849-274055"
+   }
   },
   {
    "id": "BA-25-0388",
@@ -35,7 +47,13 @@ window.BA_SEED = {
    "programme": "LLB (Hons), University of London",
    "batch": "LLB-2025A",
    "feeStatus": "paid",
-   "phone": "01911-538204"
+   "phone": "01911-538204",
+   "attendance": 97,
+   "dueAmount": 0,
+   "guardian": {
+    "relation": "Father",
+    "phone": "01941-538204"
+   }
   },
   {
    "id": "BA-25-0431",
@@ -44,7 +62,15 @@ window.BA_SEED = {
    "programme": "LLB (Hons), University of London",
    "batch": "LLB-2025B",
    "feeStatus": "overdue",
-   "phone": "01632 -907142"
+   "phone": "01632 -907142",
+   "attendance": 71,
+   "dueAmount": 48750,
+   "overdueDays": 9,
+   "guardian": {
+    "relation": "Mother",
+    "phone": "01662-907142"
+   },
+   "absentToday": true
   },
   {
    "id": "BA-24-0276",
@@ -53,7 +79,13 @@ window.BA_SEED = {
    "programme": "LLB (Hons), University of London",
    "batch": "LLB-2024B",
    "feeStatus": "paid",
-   "phone": "01715-3382 90"
+   "phone": "01715-3382 90",
+   "attendance": 91,
+   "dueAmount": 0,
+   "guardian": {
+    "relation": "Elder brother",
+    "phone": "01745-338290"
+   }
   },
   {
    "id": "BA-24-0259",
@@ -62,7 +94,14 @@ window.BA_SEED = {
    "programme": "LLB (Hons), University of London",
    "batch": "LLB-2024A",
    "feeStatus": "due",
-   "phone": "01844-710936"
+   "phone": "01844-710936",
+   "attendance": 83,
+   "dueAmount": 48750,
+   "guardian": {
+    "relation": "Father",
+    "phone": "01874-710936"
+   },
+   "absentToday": true
   },
   {
    "id": "BA-26-0033",
@@ -71,7 +110,13 @@ window.BA_SEED = {
    "programme": "CertHE Common Law, University of London",
    "batch": "CertHE-2026A",
    "feeStatus": "paid",
-   "phone": "01727-445 018"
+   "phone": "01727-445 018",
+   "attendance": 96,
+   "dueAmount": 0,
+   "guardian": {
+    "relation": "Father",
+    "phone": "01757-445018"
+   }
   },
   {
    "id": "BA-26-0041",
@@ -80,7 +125,13 @@ window.BA_SEED = {
    "programme": "CertHE Common Law, University of London",
    "batch": "CertHE-2026A",
    "feeStatus": "due",
-   "phone": "01530-86 2917"
+   "phone": "01530-86 2917",
+   "attendance": 78,
+   "dueAmount": 42500,
+   "guardian": {
+    "relation": "Mother",
+    "phone": "01560-862917"
+   }
   },
   {
    "id": "BA-26-0057",
@@ -89,7 +140,13 @@ window.BA_SEED = {
    "programme": "CertHE Common Law, University of London",
    "batch": "CertHE-2026A",
    "feeStatus": "paid",
-   "phone": "01921-307 645"
+   "phone": "01921-307 645",
+   "attendance": 92,
+   "dueAmount": 0,
+   "guardian": {
+    "relation": "Father",
+    "phone": "01951-307645"
+   }
   },
   {
    "id": "BA-26-0062",
@@ -98,7 +155,15 @@ window.BA_SEED = {
    "programme": "CertHE Common Law, University of London",
    "batch": "CertHE-2026B",
    "feeStatus": "overdue",
-   "phone": "01314-9082 77"
+   "phone": "01314-9082 77",
+   "attendance": 68,
+   "dueAmount": 42500,
+   "overdueDays": 17,
+   "guardian": {
+    "relation": "Mother",
+    "phone": "01344-908277"
+   },
+   "absentToday": true
   },
   {
    "id": "BA-26-0068",
@@ -107,7 +172,13 @@ window.BA_SEED = {
    "programme": "CertHE Common Law, University of London",
    "batch": "CertHE-2026B",
    "feeStatus": "due",
-   "phone": "01711-2250 63"
+   "phone": "01711-2250 63",
+   "attendance": 86,
+   "dueAmount": 42500,
+   "guardian": {
+    "relation": "Elder brother",
+    "phone": "01741-225063"
+   }
   },
   {
    "id": "BA-25-0215",
@@ -116,7 +187,13 @@ window.BA_SEED = {
    "programme": "LLB (Hons) SDL, University of Hertfordshire",
    "batch": "UH-SDL-2025J",
    "feeStatus": "paid",
-   "phone": "01821-640 399"
+   "phone": "01821-640 399",
+   "attendance": 95,
+   "dueAmount": 0,
+   "guardian": {
+    "relation": "Father",
+    "phone": "01851-640399"
+   }
   },
   {
    "id": "BA-25-0223",
@@ -125,7 +202,13 @@ window.BA_SEED = {
    "programme": "LLB (Hons) SDL, University of Hertfordshire",
    "batch": "UH-SDL-2025J",
    "feeStatus": "paid",
-   "phone": "01616-7043 12"
+   "phone": "01616-7043 12",
+   "attendance": 90,
+   "dueAmount": 0,
+   "guardian": {
+    "relation": "Father",
+    "phone": "01646-704312"
+   }
   },
   {
    "id": "BA-24-0148",
@@ -134,7 +217,13 @@ window.BA_SEED = {
    "programme": "LLB (Hons) SDL, University of Hertfordshire",
    "batch": "UH-SDL-2024J",
    "feeStatus": "due",
-   "phone": "01733-92 6804"
+   "phone": "01733-92 6804",
+   "attendance": 81,
+   "dueAmount": 61000,
+   "guardian": {
+    "relation": "Mother",
+    "phone": "01763-926804"
+   }
   },
   {
    "id": "BA-24-0152",
@@ -143,7 +232,13 @@ window.BA_SEED = {
    "programme": "LLB (Hons) SDL, University of Hertfordshire",
    "batch": "UH-SDL-2024J",
    "feeStatus": "paid",
-   "phone": "01912-0586 41"
+   "phone": "01912-0586 41",
+   "attendance": 93,
+   "dueAmount": 0,
+   "guardian": {
+    "relation": "Father",
+    "phone": "01942-058641"
+   }
   },
   {
    "id": "BA-26-0119",
@@ -152,7 +247,14 @@ window.BA_SEED = {
    "programme": "LLB (Hons) SDL, University of Hertfordshire",
    "batch": "UH-SDL-2026J",
    "feeStatus": "overdue",
-   "phone": "01834-3157 20"
+   "phone": "01834-3157 20",
+   "attendance": 74,
+   "dueAmount": 61000,
+   "overdueDays": 24,
+   "guardian": {
+    "relation": "Mother",
+    "phone": "01864-315720"
+   }
   },
   {
    "id": "BA-25-0507",
@@ -161,7 +263,13 @@ window.BA_SEED = {
    "programme": "BBA, National University",
    "batch": "BBA-21st",
    "feeStatus": "paid",
-   "phone": "01718-466 023"
+   "phone": "01718-466 023",
+   "attendance": 89,
+   "dueAmount": 0,
+   "guardian": {
+    "relation": "Elder brother",
+    "phone": "01748-466023"
+   }
   },
   {
    "id": "BA-25-0511",
@@ -170,7 +278,14 @@ window.BA_SEED = {
    "programme": "BBA, National University",
    "batch": "BBA-21st",
    "feeStatus": "due",
-   "phone": "01577-3 18409"
+   "phone": "01577-3 18409",
+   "attendance": 84,
+   "dueAmount": 18500,
+   "guardian": {
+    "relation": "Father",
+    "phone": "01507-318409"
+   },
+   "absentToday": true
   },
   {
    "id": "BA-25-0529",
@@ -179,7 +294,13 @@ window.BA_SEED = {
    "programme": "BBA, National University",
    "batch": "BBA-21st",
    "feeStatus": "paid",
-   "phone": "01922-860714"
+   "phone": "01922-860714",
+   "attendance": 97,
+   "dueAmount": 0,
+   "guardian": {
+    "relation": "Father",
+    "phone": "01952-860714"
+   }
   },
   {
    "id": "BA-24-0463",
@@ -188,7 +309,14 @@ window.BA_SEED = {
    "programme": "BBA, National University",
    "batch": "BBA-20th",
    "feeStatus": "overdue",
-   "phone": "01315-27 0938"
+   "phone": "01315-27 0938",
+   "attendance": 66,
+   "dueAmount": 18500,
+   "overdueDays": 31,
+   "guardian": {
+    "relation": "Mother",
+    "phone": "01345-270938"
+   }
   },
   {
    "id": "BA-24-0471",
@@ -197,7 +325,13 @@ window.BA_SEED = {
    "programme": "BBA, National University",
    "batch": "BBA-20th",
    "feeStatus": "paid",
-   "phone": "01711-9406 52"
+   "phone": "01711-9406 52",
+   "attendance": 92,
+   "dueAmount": 0,
+   "guardian": {
+    "relation": "Father",
+    "phone": "01741-940652"
+   }
   },
   {
    "id": "BA-24-0480",
@@ -206,7 +340,13 @@ window.BA_SEED = {
    "programme": "BBA, National University",
    "batch": "BBA-20th",
    "feeStatus": "due",
-   "phone": "01629-534 871"
+   "phone": "01629-534 871",
+   "attendance": 87,
+   "dueAmount": 18500,
+   "guardian": {
+    "relation": "Mother",
+    "phone": "01659-534871"
+   }
   },
   {
    "id": "BA-24-0312",
@@ -215,7 +355,13 @@ window.BA_SEED = {
    "programme": "LLB (Hons), University of London",
    "batch": "LLB-2024A",
    "feeStatus": "paid",
-   "phone": "01814-6027 39"
+   "phone": "01814-6027 39",
+   "attendance": 95,
+   "dueAmount": 0,
+   "guardian": {
+    "relation": "Elder brother",
+    "phone": "01844-602739"
+   }
   },
   {
    "id": "BA-25-0394",
@@ -224,7 +370,13 @@ window.BA_SEED = {
    "programme": "LLB (Hons), University of London",
    "batch": "LLB-2025A",
    "feeStatus": "due",
-   "phone": "01723-418 906"
+   "phone": "01723-418 906",
+   "attendance": 82,
+   "dueAmount": 48750,
+   "guardian": {
+    "relation": "Father",
+    "phone": "01753-418906"
+   }
   }
  ],
  "notices": [
@@ -659,6 +811,173 @@ window.BA_SEED = {
      "date": "2026-11-13"
     }
    ]
+  }
+ ],
+ "inquiries": [
+  {
+   "id": "Q-101",
+   "name": "Rumana Haque",
+   "phone": "01716-552 908",
+   "programme": "LLB (Hons), University of London",
+   "source": "Website form",
+   "daysAgo": 0,
+   "followUpIn": 0,
+   "stage": "new",
+   "note": "A-level results in August. Asked about the Foundation route."
+  },
+  {
+   "id": "Q-102",
+   "name": "Sakib Anwar",
+   "phone": "01819-430 271",
+   "programme": "LLB (Hons), University of London",
+   "source": "WhatsApp",
+   "daysAgo": 1,
+   "followUpIn": 0,
+   "stage": "contacted",
+   "note": "Father wants a campus visit on Saturday."
+  },
+  {
+   "id": "Q-103",
+   "name": "Tahmina Sultana",
+   "phone": "01911-208 645",
+   "programme": "BBA, National University",
+   "source": "Walk-in",
+   "daysAgo": 2,
+   "followUpIn": 1,
+   "stage": "visit",
+   "note": "Visited with mother. Taking the admission form home."
+  },
+  {
+   "id": "Q-104",
+   "name": "Nayeem Chowdhury",
+   "phone": "01712-773 019",
+   "programme": "LLB (Hons) SDL, University of Hertfordshire",
+   "source": "Facebook",
+   "daysAgo": 3,
+   "followUpIn": -2,
+   "stage": "contacted",
+   "note": "Working full time. Asked about weekend classes."
+  },
+  {
+   "id": "Q-105",
+   "name": "Afsana Mim",
+   "phone": "01534-618 270",
+   "programme": "CertHE Common Law, University of London",
+   "source": "Website form",
+   "daysAgo": 4,
+   "followUpIn": -3,
+   "stage": "new",
+   "note": "No reply to the first call."
+  },
+  {
+   "id": "Q-106",
+   "name": "Rifat Hasan",
+   "phone": "01722-905 316",
+   "programme": "LLB (Hons), University of London",
+   "source": "Former student referral",
+   "daysAgo": 5,
+   "followUpIn": 2,
+   "stage": "visit",
+   "note": "Cousin of a 2019 graduate. Visit booked."
+  },
+  {
+   "id": "Q-107",
+   "name": "Jannatul Ferdous",
+   "phone": "01615-247 803",
+   "programme": "BBA, National University",
+   "source": "Facebook",
+   "daysAgo": 6,
+   "followUpIn": 0,
+   "stage": "contacted",
+   "note": "Asked about instalments."
+  },
+  {
+   "id": "Q-108",
+   "name": "Mahin Rahman",
+   "phone": "01821-360 457",
+   "programme": "LLB (Hons), University of London",
+   "source": "Walk-in",
+   "daysAgo": 8,
+   "followUpIn": null,
+   "stage": "enrolled",
+   "note": "Enrolled. Documents complete."
+  },
+  {
+   "id": "Q-109",
+   "name": "Shirin Akter",
+   "phone": "01913-574 182",
+   "programme": "CertHE Common Law, University of London",
+   "source": "WhatsApp",
+   "daysAgo": 9,
+   "followUpIn": -5,
+   "stage": "contacted",
+   "note": "Comparing with another centre."
+  },
+  {
+   "id": "Q-110",
+   "name": "Tanzim Kabir",
+   "phone": "01730-482 615",
+   "programme": "LLB (Hons) SDL, University of Hertfordshire",
+   "source": "Website form",
+   "daysAgo": 12,
+   "followUpIn": null,
+   "stage": "lost",
+   "note": "Chose to study abroad."
+  },
+  {
+   "id": "Q-111",
+   "name": "Nabila Islam",
+   "phone": "01818-209 734",
+   "programme": "LLB (Hons), University of London",
+   "source": "Former student referral",
+   "daysAgo": 14,
+   "followUpIn": null,
+   "stage": "enrolled",
+   "note": "Enrolled for the next intake."
+  }
+ ],
+ "receipts": [
+  {
+   "no": "BA/REC/2026/1184",
+   "studentId": "BA-25-0402",
+   "amount": 48750,
+   "method": "bKash",
+   "daysAgo": 0
+  },
+  {
+   "no": "BA/REC/2026/1183",
+   "studentId": "BA-26-0057",
+   "amount": 42500,
+   "method": "Cash",
+   "daysAgo": 0
+  },
+  {
+   "no": "BA/REC/2026/1179",
+   "studentId": "BA-25-0223",
+   "amount": 61000,
+   "method": "Bank",
+   "daysAgo": 2
+  },
+  {
+   "no": "BA/REC/2026/1172",
+   "studentId": "BA-25-0507",
+   "amount": 18500,
+   "method": "Cash",
+   "daysAgo": 4
+  },
+  {
+   "no": "BA/REC/2026/1165",
+   "studentId": "BA-24-0276",
+   "amount": 48750,
+   "method": "bKash",
+   "daysAgo": 7
+  },
+  {
+   "no": "BA/REC/2026/1158",
+   "studentId": "BA-26-0033",
+   "amount": 42500,
+   "method": "Bank",
+   "daysAgo": 11
   }
  ]
 };

@@ -1,6 +1,7 @@
-/* Bhuiyan Academy preview: student portal demonstration.
+/* Bhuiyan Academy preview: student portal and staff portal demonstration.
    Seed (js/portal-seed.js, window.BA_SEED) + localStorage overrides (key ba_portal_v1).
-   Nothing leaves the browser. Overrides: notices added in the office view, read marks, role flag. */
+   Nothing leaves the browser. Overrides: notices, read marks, staff role, inquiry stages and added inquiries,
+   payments recorded by Accounts, attendance saved by the Academic office. */
 (function () {
   'use strict';
 
@@ -25,7 +26,7 @@
     memory = null;
     try { window.localStorage.removeItem(KEY); } catch (e) { /* ignore */ }
   }
-  function blank() { return { v: 1, added: [], read: {}, role: null }; }
+  function blank() { return { v: 1, added: [], read: {}, role: null, stage: {}, inq: [], payments: [], att: {} }; }
   function load() {
     var raw = rawGet();
     var s = null;
@@ -33,6 +34,8 @@
     if (!s || typeof s !== 'object') { s = blank(); rawSet(JSON.stringify(s)); }
     if (!Array.isArray(s.added)) { s.added = []; }
     if (!s.read || typeof s.read !== 'object') { s.read = {}; }
+    ['stage', 'att'].forEach(function (k) { if (!s[k] || typeof s[k] !== 'object') { s[k] = {}; } });
+    ['inq', 'payments'].forEach(function (k) { if (!Array.isArray(s[k])) { s[k] = []; } });
     return s;
   }
   function save() { rawSet(JSON.stringify(state)); }
@@ -318,6 +321,418 @@
       '<div class="empty"><p class="empty__title">Nothing of that type yet</p><p class="empty__text">Use the request form to ask the office.</p></div>';
   };
 
+  /* Staff portal: departments, shared records -------------------------------- */
+  var ROLES = {
+    admissions: { name: 'Admissions', label: 'Admissions & front desk', home: 'Today at the front desk',
+      pages: ['admin-dashboard', 'admin-inquiries', 'admin-students', 'admin-notices'] },
+    accounts: { name: 'Accounts', label: 'Accounts desk', home: 'Today at the accounts desk',
+      pages: ['admin-dashboard', 'admin-fees', 'admin-students'] },
+    academic: { name: 'Academic', label: 'Academic office', home: 'Today in the academic office',
+      pages: ['admin-dashboard', 'admin-attendance', 'admin-notices'] },
+    principal: { name: 'Principal', label: 'Principal & management', home: 'Overview for the Principal',
+      pages: ['admin-dashboard', 'admin-students'] }
+  };
+  var PAGE_OWNER = {
+    'admin-inquiries': 'Admissions', 'admin-fees': 'Accounts', 'admin-attendance': 'Academic',
+    'admin-notices': 'Admissions or Academic', 'admin-students': 'Admissions, Accounts or Principal'
+  };
+  var STAGES = [['new', 'New'], ['contacted', 'Contacted'], ['visit', 'Visit booked'], ['enrolled', 'Enrolled'], ['lost', 'Not now']];
+  var ACADEMY = 'Bhuiyan Academy';
+
+  function isoOffset(days) { var d = todayDate(); d.setDate(d.getDate() + days); return toISO(d); }
+  function waLink(phone) {
+    var d = String(phone).replace(/\D/g, '').replace(/^0+/, '');
+    return 'https://wa.me/880' + d;
+  }
+  function prettyPhone(phone) {
+    var d = String(phone).replace(/\D/g, '');
+    return d.length === 11 ? d.slice(0, 5) + '-' + d.slice(5) : phone;
+  }
+  function waBtn(phone, msg, who, label) {
+    return '<a class="wa" href="' + waLink(phone) + (msg ? '?text=' + encodeURIComponent(msg) : '') +
+      '" target="_blank" rel="noopener" aria-label="WhatsApp ' + esc(who) + '">' + (label || 'WhatsApp') + '</a>';
+  }
+  function statsHTML(rows) {
+    return rows.map(function (r) {
+      return '<li class="stat"><span class="stat__label">' + r[0] + '</span><span><span class="stat__value">' + r[1] +
+        '</span><span class="stat__note">' + esc(r[2]) + '</span></span></li>';
+    }).join('');
+  }
+  function panel(span, title, meta, inner) {
+    return '<section class="panel ' + span + '"><div class="panel__head"><h3 class="panel__title">' + title + '</h3>' +
+      (meta ? '<span class="panel__meta">' + meta + '</span>' : '') + '</div>' + inner + '</section>';
+  }
+  function emptyHTML(title, text) {
+    return '<div class="empty"><p class="empty__title">' + title + '</p>' + (text ? '<p class="empty__text">' + text + '</p>' : '') + '</div>';
+  }
+
+  // Inquiries: seed + added here, with stage changes applied and dates relative to today
+  function inquiries() {
+    return state.inq.concat(SEED.inquiries || []).map(function (q) {
+      var stage = state.stage[q.id] || q.stage;
+      var fu = q.followUp !== undefined ? q.followUp : (q.followUpIn == null ? null : isoOffset(q.followUpIn));
+      if (stage === 'enrolled' || stage === 'lost') { fu = null; }
+      return Object.assign({}, q, { stage: stage, date: q.date || isoOffset(-q.daysAgo), followUp: fu });
+    });
+  }
+  function followUpsDue() {
+    return inquiries().filter(function (q) { return q.followUp && daysUntil(q.followUp) <= 0; })
+      .sort(function (a, b) { return a.followUp < b.followUp ? -1 : 1; });
+  }
+
+  // Students: seed + anyone Admissions has enrolled, with payments from Accounts applied
+  function students() {
+    var list = SEED.students.map(function (s) { return Object.assign({}, s); });
+    inquiries().forEach(function (q) {
+      if (q.stage !== 'enrolled') { return; }
+      list.push({ id: 'BA-26-9' + String(q.id).replace(/\D/g, '').slice(-3), name: q.name, programme: q.programme,
+        batch: 'New intake', feeStatus: 'due', dueAmount: null, phone: q.phone, attendance: null, fresh: true });
+    });
+    state.payments.forEach(function (p) {
+      list.forEach(function (s) { if (s.id === p.studentId) { s.feeStatus = 'paid'; s.dueAmount = 0; s.receipt = p.no; } });
+    });
+    return list;
+  }
+  function studentById(id) { return students().filter(function (s) { return s.id === id; })[0]; }
+  function receipts() {
+    var seed = (SEED.receipts || []).map(function (r) { return Object.assign({ date: isoOffset(-r.daysAgo) }, r); });
+    return state.payments.slice().reverse().concat(seed);
+  }
+  function sumReceipts(fromDays) {
+    return receipts().filter(function (r) { return daysUntil(r.date) >= -fromDays; })
+      .reduce(function (t, r) { return t + r.amount; }, 0);
+  }
+  function owing() { return students().filter(function (s) { return s.feeStatus !== 'paid'; }); }
+  function outstanding() { return owing().reduce(function (t, s) { return t + (s.dueAmount || 0); }, 0); }
+  function overdueList() {
+    return students().filter(function (s) { return s.feeStatus === 'overdue'; })
+      .sort(function (a, b) { return (b.overdueDays || 0) - (a.overdueDays || 0); });
+  }
+
+  // Attendance: saved by the Academic office today, otherwise the sample roll call
+  function batches() {
+    var seen = {}, out = [];
+    SEED.students.forEach(function (s) { if (!seen[s.batch]) { seen[s.batch] = s.programme; out.push(s.batch); } });
+    return out.map(function (b) { return { batch: b, programme: seen[b] }; });
+  }
+  function batchStudents(b) { return SEED.students.filter(function (s) { return s.batch === b; }); }
+  function savedRoll(b) { var t = state.att[toISO(todayDate())]; return t && t[b] ? t[b] : null; }
+  var NOT_TAKEN_YET = ['CertHE-2026B', 'BBA-20th'];     // sample: two batches still waiting for the roll call
+  function isTaken(b) { return !!savedRoll(b) || NOT_TAKEN_YET.indexOf(b) === -1; }
+  function absentIds(b) {
+    var saved = savedRoll(b);
+    if (saved) { return saved; }
+    return batchStudents(b).filter(function (s) { return s.absentToday; }).map(function (s) { return s.id; });
+  }
+  function absentToday() {
+    var out = [];
+    batches().forEach(function (b) {
+      absentIds(b.batch).forEach(function (id) {
+        var s = SEED.students.filter(function (x) { return x.id === id; })[0];
+        if (s) { out.push(s); }
+      });
+    });
+    return out;
+  }
+  function attendancePct() {
+    var total = 0, absent = 0;
+    batches().forEach(function (b) {
+      if (!isTaken(b.batch)) { return; }
+      total += batchStudents(b.batch).length;
+      absent += absentIds(b.batch).length;
+    });
+    return total ? Math.round((total - absent) / total * 100) : null;
+  }
+
+  function reminderText(s) {
+    return 'Assalamu alaikum. This is the accounts desk at ' + ACADEMY + '. A fee payment for ' + s.name + ' (' + s.id + ') is ' +
+      (s.feeStatus === 'overdue' ? 'overdue' : 'due') + (s.dueAmount ? ': ' + fmtBDT(s.dueAmount) : '') +
+      '. Please pay at the accounts desk or by bKash and keep your receipt.';
+  }
+  function absenceText(s) {
+    return 'Assalamu alaikum. This is the academic office at ' + ACADEMY + '. ' + s.name + ' was absent from class today, ' +
+      fmtDate(todayDate()) + '. Please call the office if there is a reason.';
+  }
+  function followUpText(q) {
+    return 'Assalamu alaikum ' + q.name.split(' ')[0] + '. This is the admissions desk at ' + ACADEMY +
+      ', following up on your question about ' + q.programme + '. When would suit you for a call or a visit?';
+  }
+
+  function followUpTag(q) {
+    if (!q.followUp) { return '<span class="muted">-</span>'; }
+    var d = daysUntil(q.followUp);
+    if (d < 0) { return '<span class="tag tag--late">' + plural(-d, 'day', 'days') + ' late</span>'; }
+    if (d === 0) { return '<span class="tag tag--today">Today</span>'; }
+    return fmtDate(q.followUp);
+  }
+  function inquiryRowsHTML(list, compact) {
+    return '<ul class="rows">' + list.map(function (q) {
+      return '<li class="row"><div class="row__main"><p class="row__title">' + esc(q.name) + '</p>' +
+        '<p class="row__sub">' + esc(q.programme) + ' · ' + esc(q.source) + '</p>' +
+        (compact ? '' : '<p class="row__note">' + esc(q.note) + '</p>') + '</div>' +
+        '<div class="row__side">' + followUpTag(q) + waBtn(q.phone, followUpText(q), q.name) + '</div></li>';
+    }).join('') + '</ul>';
+  }
+  function absentRowsHTML(list) {
+    return '<ul class="rows">' + list.map(function (s) {
+      var g = s.guardian || {};
+      return '<li class="row"><div class="row__main"><p class="row__title">' + esc(s.name) + '</p>' +
+        '<p class="row__sub">' + esc(s.batch) + ' · Guardian: ' + esc(g.relation || '-') + ', ' + esc(prettyPhone(g.phone || '')) + '</p></div>' +
+        '<div class="row__side">' + (g.phone ? waBtn(g.phone, absenceText(s), (g.relation || 'guardian') + ' of ' + s.name, 'Message guardian') : '') + '</div></li>';
+    }).join('') + '</ul>';
+  }
+  function overdueRowsHTML(list) {
+    return '<ul class="rows">' + list.map(function (s) {
+      return '<li class="row"><div class="row__main"><p class="row__title">' + esc(s.name) + '</p>' +
+        '<p class="row__sub">' + esc(s.id) + ' · ' + esc(s.batch) + (s.overdueDays ? ' · ' + plural(s.overdueDays, 'day', 'days') + ' overdue' : '') + '</p></div>' +
+        '<div class="row__side"><span class="row__amount">' + (s.dueAmount ? fmtBDT(s.dueAmount) : 'Not set') + '</span>' +
+        waBtn(s.phone, reminderText(s), s.name, 'Send reminder') + '</div></li>';
+    }).join('') + '</ul>';
+  }
+  function receiptsTableHTML(list) {
+    return '<div class="table-wrap"><table class="data"><thead><tr><th>Receipt</th><th>Date</th><th>Student</th><th>Method</th><th class="num">Amount</th></tr></thead><tbody>' +
+      list.map(function (r) {
+        var s = SEED.students.filter(function (x) { return x.id === r.studentId; })[0] || studentById(r.studentId) || { name: r.studentId };
+        return '<tr data-id="' + esc(r.no) + '"><td class="mono">' + esc(r.no) + '</td><td class="mono">' + fmtDate(r.date) + '</td><td>' + esc(s.name) +
+          '<span class="data__sub">' + esc(r.studentId) + '</span></td><td>' + esc(r.method) + '</td><td class="num">' + fmtBDT(r.amount) + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+  }
+  function todayClassesHTML() {
+    var now = new Date(), tdName = DAYS[now.getDay()], entry = dayEntry(tdName);
+    if (!entry) { return emptyHTML('No classes on ' + tdName, 'The week resumes on Saturday.'); }
+    return '<div class="table-wrap"><table class="data"><thead><tr><th>Time</th><th>Module</th><th>Room</th></tr></thead><tbody>' +
+      entry.slots.map(function (s) {
+        return '<tr><td class="num">' + timeText(s) + '</td><td>' + esc(s.module) + '<span class="data__sub">' + esc(s.lecturer) +
+          '</span></td><td class="num">' + esc(s.room) + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+  }
+
+  /* Today, one page per department ------------------------------------------- */
+  R['admin-dashboard'] = function () {
+    var role = state.role, html = '';
+    var due = followUpsDue(), absent = absentToday(), od = overdueList(), pct = attendancePct();
+    var open = inquiries().filter(function (q) { return q.stage !== 'enrolled' && q.stage !== 'lost'; });
+    var weekAgo = inquiries().filter(function (q) { return daysUntil(q.date) >= -7; });
+    $('[data-mount="greeting"]').textContent = ROLES[role].home;
+    $('[data-mount="dateline"]').textContent = DAYS[new Date().getDay()] + ', ' + fmtDate(todayDate()) + ' · Sample data';
+
+    if (role === 'admissions') {
+      html += panel('p-5', 'At a glance', '', '<ul class="stats">' + statsHTML([
+        ['Follow-ups due', String(due.length), 'today or late'],
+        ['New this week', String(weekAgo.length), 'all sources'],
+        ['Visits booked', String(inquiries().filter(function (q) { return q.stage === 'visit'; }).length), 'campus visits'],
+        ['Enrolled', String(inquiries().filter(function (q) { return q.stage === 'enrolled'; }).length), 'from inquiries']
+      ]) + '</ul>');
+      html += panel('p-7', 'Follow up today', '<a class="btn btn--text" href="/portal/admin-inquiries">All inquiries</a>',
+        due.length ? inquiryRowsHTML(due) : emptyHTML('No follow-ups due', 'Everyone has been contacted.'));
+      html += panel('p-12', 'Absent today: call the guardians', 'From the academic office',
+        absent.length ? absentRowsHTML(absent) : emptyHTML('No absences recorded today'));
+    } else if (role === 'accounts') {
+      html += panel('p-5', 'At a glance', 'Sample figures', '<ul class="stats">' + statsHTML([
+        ['Collected today', fmtBDT(sumReceipts(0)), plural(receipts().filter(function (r) { return daysUntil(r.date) === 0; }).length, 'receipt', 'receipts')],
+        ['Last 30 days', fmtBDT(sumReceipts(30)), 'all methods'],
+        ['Outstanding', fmtBDT(outstanding()), plural(owing().length, 'student', 'students') + ' with dues'],
+        ['Overdue', String(od.length), 'need a reminder']
+      ]) + '</ul>');
+      html += panel('p-7', 'Overdue: send a reminder', '<a class="btn btn--text" href="/portal/admin-fees">All dues</a>',
+        od.length ? overdueRowsHTML(od) : emptyHTML('Nothing overdue'));
+      html += panel('p-12', 'Latest receipts', '<a class="btn btn--text" href="/portal/admin-fees">Record a payment</a>',
+        receiptsTableHTML(receipts().slice(0, 5)));
+    } else if (role === 'academic') {
+      var entry = dayEntry(DAYS[new Date().getDay()]);
+      html += panel('p-5', 'At a glance', '', '<ul class="stats">' + statsHTML([
+        ['Classes today', String(entry ? entry.slots.length : 0), 'LLB Year 2 timetable'],
+        ['Attendance today', pct == null ? '-' : pct + '%', 'batches taken so far'],
+        ['Absent today', String(absent.length), 'guardians to message'],
+        ['Notices on the board', String(allNotices().length), plural(state.added.length, 'posted today', 'posted today')]
+      ]) + '</ul>');
+      html += panel('p-7', 'Classes today', 'LLB Year 2 (sample)', todayClassesHTML());
+      html += panel('p-12', 'Absent today', '<a class="btn btn--text" href="/portal/admin-attendance">Take attendance</a>',
+        absent.length ? absentRowsHTML(absent) : emptyHTML('No absences recorded today'));
+    } else {
+      html += panel('p-12', 'At a glance', 'Sample figures', '<ul class="stats stats--wide">' + statsHTML([
+        ['Students', String(students().length), plural(batches().length, 'batch', 'batches')],
+        ['Collected, 30 days', fmtBDT(sumReceipts(30)), fmtBDT(sumReceipts(0)) + ' today'],
+        ['Outstanding', fmtBDT(outstanding()), od.length + ' overdue'],
+        ['Attendance today', pct == null ? '-' : pct + '%', absent.length + ' absent'],
+        ['Open inquiries', String(open.length), due.length + ' follow-ups due']
+      ]) + '</ul>');
+      var depts = [
+        ['Admissions', [['Open inquiries', open.length], ['Follow-ups due', due.length], ['Enrolled', inquiries().filter(function (q) { return q.stage === 'enrolled'; }).length]]],
+        ['Accounts', [['Collected today', fmtBDT(sumReceipts(0))], ['Outstanding', fmtBDT(outstanding())], ['Overdue students', od.length]]],
+        ['Academic', [['Attendance today', pct == null ? '-' : pct + '%'], ['Absent today', absent.length], ['Notices on the board', allNotices().length]]]
+      ];
+      html += depts.map(function (d) {
+        return panel('p-4', d[0], '', '<dl class="kv">' + d[1].map(function (kv) {
+          return '<dt>' + kv[0] + '</dt><dd class="kv__num">' + kv[1] + '</dd>';
+        }).join('') + '</dl>');
+      }).join('');
+      var late = due.filter(function (q) { return daysUntil(q.followUp) < 0; });
+      var attention = late.map(function (q) { return ['Admissions', q.name + ': inquiry follow-up ' + plural(-daysUntil(q.followUp), 'day', 'days') + ' late']; })
+        .concat(od.filter(function (s) { return (s.overdueDays || 0) >= 14; }).map(function (s) { return ['Accounts', s.name + ': fee ' + s.overdueDays + ' days overdue']; }))
+        .concat(absent.filter(function (s) { return s.attendance < 80; }).map(function (s) { return ['Academic', s.name + ': absent today, attendance ' + s.attendance + '%']; }));
+      html += panel('p-12', 'Needs attention', plural(attention.length, 'item', 'items'), attention.length
+        ? '<ul class="rows">' + attention.map(function (a) {
+            return '<li class="row"><div class="row__main"><p class="row__title">' + esc(a[1]) + '</p></div><div class="row__side"><span class="badge">' + a[0] + '</span></div></li>';
+          }).join('') + '</ul>'
+        : emptyHTML('Nothing needs attention'));
+    }
+    $('[data-mount="today"]').innerHTML = html;
+  };
+
+  /* Inquiries (Admissions) ------------------------------------------------------ */
+  var stageFilter = 'all';
+  R['admin-inquiries'] = function () {
+    var all = inquiries();
+    $('[data-mount="pipeline"]').innerHTML = [['all', 'All']].concat(STAGES).map(function (st) {
+      var n = st[0] === 'all' ? all.length : all.filter(function (q) { return q.stage === st[0]; }).length;
+      return '<li><button type="button" class="pipeline__step" data-stage-filter="' + st[0] + '" aria-pressed="' + (stageFilter === st[0]) + '">' +
+        '<span class="pipeline__n">' + n + '</span><span class="pipeline__label">' + st[1] + '</span></button></li>';
+    }).join('');
+    var list = all.filter(function (q) { return stageFilter === 'all' || q.stage === stageFilter; });
+    $('[data-count]').textContent = plural(list.length, 'inquiry', 'inquiries');
+    $('[data-mount="inquiries"]').innerHTML = list.length
+      ? '<div class="table-wrap"><table class="data"><thead><tr><th>Name</th><th>Programme</th><th class="num">Received</th><th>Follow up</th><th>Stage</th><th></th></tr></thead><tbody>' +
+        list.map(function (q) {
+          return '<tr data-id="' + esc(q.id) + '"><td>' + esc(q.name) + '<span class="data__sub">' + esc(prettyPhone(q.phone)) + '</span></td>' +
+            '<td>' + esc(q.programme) + '<span class="data__sub">' + esc(q.source) + (q.note ? ' · ' + esc(q.note) : '') + '</span></td>' +
+            '<td class="num">' + fmtDate(q.date) + '</td><td>' + followUpTag(q) + '</td>' +
+            '<td><label class="visually-hidden" for="st-' + esc(q.id) + '">Stage for ' + esc(q.name) + '</label>' +
+            '<select class="field__input field__input--sm" id="st-' + esc(q.id) + '" data-stage-for="' + esc(q.id) + '">' +
+            STAGES.map(function (st) { return '<option value="' + st[0] + '"' + (st[0] === q.stage ? ' selected' : '') + '>' + st[1] + '</option>'; }).join('') +
+            '</select></td><td>' + waBtn(q.phone, followUpText(q), q.name) + '</td></tr>';
+        }).join('') + '</tbody></table></div>'
+      : emptyHTML('No inquiries at this stage');
+    var sel = $('[data-programme-options]');
+    if (sel && !sel.options.length) {
+      var progs = [];
+      SEED.students.forEach(function (s) { if (progs.indexOf(s.programme) === -1) { progs.push(s.programme); } });
+      sel.innerHTML = progs.map(function (p) { return '<option>' + esc(p) + '</option>'; }).join('');
+    }
+  };
+
+  /* Fees and receipts (Accounts) ------------------------------------------------- */
+  var lastReceipt = null;
+  R['admin-fees'] = function () {
+    var owe = owing().sort(function (a, b) {
+      var rank = { overdue: 0, due: 1 };
+      return (rank[a.feeStatus] - rank[b.feeStatus]) || ((b.overdueDays || 0) - (a.overdueDays || 0));
+    });
+    $('[data-mount="fee-stats"]').innerHTML = statsHTML([
+      ['Collected today', fmtBDT(sumReceipts(0)), 'sample figures'],
+      ['Last 30 days', fmtBDT(sumReceipts(30)), plural(receipts().filter(function (r) { return daysUntil(r.date) >= -30; }).length, 'receipt', 'receipts')],
+      ['Outstanding', fmtBDT(outstanding()), plural(owe.length, 'student', 'students') + ' with dues']
+    ]);
+    $('[data-count]').textContent = plural(owe.length, 'student', 'students');
+    $('[data-mount="dues"]').innerHTML = owe.length
+      ? '<div class="table-wrap"><table class="data"><thead><tr><th>Student</th><th>Batch</th><th>Status</th><th class="num">Amount</th><th></th></tr></thead><tbody>' +
+        owe.map(function (s) {
+          var status = s.fresh ? '<span class="badge badge--warn">First instalment</span>' : badge(s.feeStatus);
+          var when = s.overdueDays ? plural(s.overdueDays, 'day', 'days') + ' overdue' : s.fresh ? 'New admission' : 'Due this month';
+          return '<tr><td>' + esc(s.name) + '<span class="data__sub">' + esc(s.id) + '</span></td><td>' + esc(s.batch) +
+            '<span class="data__sub">' + esc(s.programme) + '</span></td><td>' + status + '<span class="data__sub">' + when + '</span></td>' +
+            '<td class="num">' + (s.dueAmount ? fmtBDT(s.dueAmount) : 'Not set yet') + '</td><td>' + waBtn(s.phone, reminderText(s), s.name, 'Send reminder') + '</td></tr>';
+        }).join('') + '</tbody></table></div>'
+      : emptyHTML('No dues', 'Every student is paid up.');
+    var list = receipts();
+    $('[data-mount="receipt-total"]').textContent = fmtBDT(sumReceipts(0)) + ' today';
+    $('[data-mount="receipts"]').innerHTML = receiptsTableHTML(list);
+    if (lastReceipt) {
+      var row = $('[data-id="' + lastReceipt + '"]');
+      lastReceipt = null;
+      if (row) { row.classList.add('is-new'); setTimeout(function () { row.classList.remove('is-new'); }, 1400); }
+    }
+    var sel = $('[data-student-options]'), keep = sel.value;
+    sel.innerHTML = '<optgroup label="With dues">' + owe.map(function (s) {
+      return '<option value="' + esc(s.id) + '">' + esc(s.name) + ' · ' + esc(s.id) + '</option>';
+    }).join('') + '</optgroup><optgroup label="Paid up">' + students().filter(function (s) { return s.feeStatus === 'paid'; }).map(function (s) {
+      return '<option value="' + esc(s.id) + '">' + esc(s.name) + ' · ' + esc(s.id) + '</option>';
+    }).join('') + '</optgroup>';
+    if (keep && studentById(keep) && studentById(keep).feeStatus !== 'paid') { sel.value = keep; }
+    prefillAmount();
+  };
+  function prefillAmount() {
+    var sel = $('[data-student-options]'), amt = $('#pay-amount');
+    if (!sel || !amt) { return; }
+    var s = studentById(sel.value);
+    amt.value = s && s.dueAmount ? s.dueAmount : '';
+  }
+
+  /* Attendance (Academic) ------------------------------------------------------------ */
+  var attBatch = null, attDraft = {};
+  R['admin-attendance'] = function () {
+    var all = batches();
+    if (!attBatch) { attBatch = all[0].batch; }
+    var sel = $('[data-batch-options]');
+    if (!sel.options.length) {
+      sel.innerHTML = all.map(function (b) { return '<option value="' + esc(b.batch) + '">' + esc(b.batch) + ' · ' + esc(b.programme) + '</option>'; }).join('');
+    }
+    sel.value = attBatch;
+    if (!attDraft[attBatch]) { attDraft[attBatch] = absentIds(attBatch).slice(); }
+    var draft = attDraft[attBatch], roll = batchStudents(attBatch);
+    $('[data-mount="att-date"]').textContent = DAYS[new Date().getDay()] + ', ' + fmtDate(todayDate()) + '. Mark who is absent, then save. Sample students.';
+    $('[data-count]').textContent = plural(roll.length, 'student', 'students') + ' · ' + (isTaken(attBatch) ? 'taken' : 'not taken yet');
+    $('[data-mount="roll"]').innerHTML = '<ul class="rows">' + roll.map(function (s) {
+      var abs = draft.indexOf(s.id) !== -1;
+      return '<li class="row"><div class="row__main"><p class="row__title">' + esc(s.name) + '</p><p class="row__sub">' + esc(s.id) +
+        ' · term attendance ' + s.attendance + '%</p></div><div class="row__side"><div class="pa" role="group" aria-label="' + esc(s.name) + '">' +
+        '<button type="button" data-pa="' + esc(s.id) + '" data-val="p" aria-pressed="' + !abs + '">Present</button>' +
+        '<button type="button" data-pa="' + esc(s.id) + '" data-val="a" aria-pressed="' + abs + '">Absent</button></div></div></li>';
+    }).join('') + '</ul>';
+    var absent = absentToday();
+    $('[data-mount="absent-count"]').textContent = plural(absent.length, 'student', 'students');
+    $('[data-mount="absent"]').innerHTML = absent.length ? absentRowsHTML(absent) : emptyHTML('No absences recorded today');
+    $('[data-mount="batches"]').innerHTML = '<div class="table-wrap"><table class="data"><thead><tr><th>Batch</th><th>Programme</th>' +
+      '<th class="num">Students</th><th class="num">Present</th><th class="num">Absent</th><th>Status</th></tr></thead><tbody>' +
+      all.map(function (b) {
+        var n = batchStudents(b.batch).length, a = absentIds(b.batch).length, taken = isTaken(b.batch);
+        return '<tr><td class="mono">' + esc(b.batch) + '</td><td>' + esc(b.programme) + '</td><td class="num">' + n + '</td>' +
+          '<td class="num">' + (taken ? n - a : '-') + '</td><td class="num">' + (taken ? a : '-') + '</td>' +
+          '<td>' + (taken ? '<span class="badge badge--ok">Taken</span>' : '<span class="badge">Not taken yet</span>') + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+  };
+
+  /* Students (shared list, columns by department) ------------------------------------ */
+  var progFilter = 'all';
+  R['admin-students'] = function () {
+    var role = state.role, money = role === 'accounts' || role === 'principal', contact = role !== 'accounts';
+    var input = $('#student-search'), q = input ? input.value.trim().toLowerCase() : '';
+    var all = students(), progs = [];
+    all.forEach(function (s) { var p = s.programme.split(',')[0]; if (progs.indexOf(p) === -1) { progs.push(p); } });
+    var chips = $('[data-mount="prog-chips"]');
+    if (!chips) {
+      chips = document.createElement('div');
+      chips.className = 'tabs chips';
+      chips.setAttribute('data-mount', 'prog-chips');
+      $('.search').insertAdjacentElement('afterend', chips);
+    }
+    chips.innerHTML = ['all'].concat(progs).map(function (p) {
+      return '<button type="button" data-prog-filter="' + esc(p) + '" aria-pressed="' + (progFilter === p) + '">' + (p === 'all' ? 'All programmes' : esc(p)) + '</button>';
+    }).join('');
+    var rows = all.filter(function (s) {
+      return (progFilter === 'all' || s.programme.split(',')[0] === progFilter) &&
+        (!q || (s.name + ' ' + s.id + ' ' + s.programme + ' ' + s.batch).toLowerCase().indexOf(q) !== -1);
+    });
+    var due = rows.filter(function (s) { return s.feeStatus !== 'paid'; }).length;
+    $('[data-count]').textContent = rows.length + ' of ' + all.length + ' students' + (money ? ' · ' + due + ' with dues' : '');
+    var head = '<th>ID</th><th>Name</th><th>Batch</th><th class="num">Attendance</th>' + (money ? '<th>Fees</th><th class="num">Balance</th>' : '') +
+      (contact ? '<th>Guardian</th>' : '') + '<th>Phone</th>';
+    $('[data-mount="students"]').innerHTML = rows.length
+      ? '<div class="table-wrap"><table class="data"><thead><tr>' + head + '</tr></thead><tbody>' +
+        rows.map(function (s) {
+          var g = s.guardian;
+          return '<tr><td class="mono">' + esc(s.id) + '</td><td>' + esc(s.name) + (s.fresh ? ' <span class="notice__new">New</span>' : '') +
+            '<span class="data__sub">' + esc(s.programme) + '</span></td><td class="mono">' + esc(s.batch) + '</td>' +
+            '<td class="num">' + (s.attendance == null ? '-' : s.attendance + '%') + '</td>' +
+            (money ? '<td>' + (s.fresh && s.feeStatus !== 'paid' ? '<span class="badge badge--warn">First instalment</span>' : badge(s.feeStatus)) + '</td>' +
+              '<td class="num">' + (s.feeStatus === 'paid' ? fmtBDT(0) : s.dueAmount ? fmtBDT(s.dueAmount) : 'Not set') + '</td>' : '') +
+            (contact ? '<td>' + (g ? esc(g.relation) + '<span class="data__sub">' + esc(prettyPhone(g.phone)) + '</span>' : '<span class="muted">-</span>') + '</td>' : '') +
+            '<td class="mono">' + esc(prettyPhone(s.phone)) + ' ' + waBtn(s.phone, '', s.name) + '</td></tr>';
+        }).join('') + '</tbody></table></div>'
+      : emptyHTML('No student matches “' + esc(input.value.trim()) + '”', 'Try a name, an ID such as BA-25, or a programme.');
+  };
+
+  /* Notices (Admissions and Academic) ------------------------------------------------- */
   var highlightId = null;
   R['admin-notices'] = function () {
     var list = boardOrder();
@@ -335,41 +750,30 @@
     }
   };
 
-  function waLink(phone) {
-    var d = String(phone).replace(/\D/g, '').replace(/^0+/, '');
-    return 'https://wa.me/880' + d;
-  }
-  function prettyPhone(phone) {
-    var d = String(phone).replace(/\D/g, '');
-    return d.length === 11 ? d.slice(0, 5) + '-' + d.slice(5) : phone;
-  }
-  R['admin-students'] = function () {
-    var input = $('#student-search'), q = input ? input.value.trim().toLowerCase() : '';
-    var all = SEED.students;
-    var rows = all.filter(function (s) {
-      return !q || (s.name + ' ' + s.id + ' ' + s.programme + ' ' + s.batch).toLowerCase().indexOf(q) !== -1;
-    });
-    var due = rows.filter(function (s) { return s.feeStatus !== 'paid'; }).length;
-    $('[data-count]').textContent = (q ? rows.length + ' of ' + all.length : all.length) + ' students · ' + due + ' fees due';
-    $('[data-mount="students"]').innerHTML = rows.length
-      ? '<div class="table-wrap"><table class="data"><thead><tr><th>ID</th><th>Name</th><th>Programme</th><th>Batch</th><th>Fees</th><th>Phone</th></tr></thead><tbody>' +
-        rows.map(function (s) {
-          return '<tr><td class="num">' + esc(s.id) + '</td><td>' + esc(s.name) + '</td><td>' + esc(s.programme) + '</td>' +
-            '<td class="num">' + esc(s.batch) + '</td><td>' + badge(s.feeStatus) + '</td>' +
-            '<td class="num">' + esc(prettyPhone(s.phone)) + ' <a class="wa" href="' + waLink(s.phone) +
-            '" target="_blank" rel="noopener" aria-label="WhatsApp ' + esc(s.name) + '">WhatsApp</a></td></tr>';
-        }).join('') + '</tbody></table></div>'
-      : '<div class="empty"><p class="empty__title">No student matches “' + esc(input.value.trim()) + '”</p><p class="empty__text">Try a name, an ID such as BA-25, or a programme.</p></div>';
-  };
-
   /* Shell ------------------------------------------------------------------ */
   var nav = document.body.getAttribute('data-nav') || '';
   var office = nav.indexOf('admin') === 0;
+  if (office && !ROLES[state.role]) { window.location.replace('/portal/staff'); return; }
+  var ROLE = office ? ROLES[state.role] : null;
+  var allowed = !office || ROLE.pages.indexOf(nav) !== -1;
 
   function fillShell() {
-    var name = office ? 'Front office' : SEED.student.name;
-    $$('[data-student-name]').forEach(function (el) { el.textContent = name; });
-    $$('[data-student-id]').forEach(function (el) { el.textContent = office ? 'Demo staff view' : SEED.student.id; });
+    if (office) {
+      $$('[data-staff-name]').forEach(function (el) { el.textContent = ROLE.label; });
+      $$('[data-role-label]').forEach(function (el) { el.textContent = ROLE.name + ' · Staff portal'; });
+      $$('[data-office-nav] [data-page]').forEach(function (a) {
+        if (ROLE.pages.indexOf(a.getAttribute('data-page')) === -1) { a.remove(); }
+        else if (a.getAttribute('data-page') === 'admin-dashboard' && state.role === 'principal') { a.textContent = 'Overview'; }
+      });
+      if (nav === 'admin-dashboard' && state.role === 'principal') {
+        var tt = $('[data-topbar-title]');
+        if (tt) { tt.textContent = 'Overview'; }
+        document.title = 'Overview | Bhuiyan Academy';
+      }
+    } else {
+      $$('[data-student-name]').forEach(function (el) { el.textContent = SEED.student.name; });
+      $$('[data-student-id]').forEach(function (el) { el.textContent = SEED.student.id; });
+    }
     $$('[data-first-name]').forEach(function (el) { el.textContent = SEED.student.name.split(' ')[0]; });
     $$('[data-student-line]').forEach(function (el) {
       el.textContent = SEED.student.programme + ' · Year ' + SEED.student.year + ' · batch ' + SEED.student.batch;
@@ -387,13 +791,20 @@
   }
 
   function render() {
-    if (R[nav]) { R[nav](); }
+    if (!allowed) {
+      var main = $('#main');
+      if (main && !$('[data-not-yours]')) {
+        main.innerHTML = '<section data-not-yours>' + emptyHTML('This page belongs to ' + esc(PAGE_OWNER[nav] || 'another department'),
+          'You are signed in as ' + esc(ROLE.label) + '. Sign out and choose that department to use this page.') +
+          '<p style="margin-top:1rem"><a class="btn btn--secondary" href="/portal/admin-dashboard">Back to ' + (state.role === 'principal' ? 'Overview' : 'Today') + '</a></p></section>';
+      }
+    } else if (R[nav]) { R[nav](); }
     fillShell();
   }
 
   /* Events ----------------------------------------------------------------- */
   document.addEventListener('click', function (e) {
-    var t = e.target.closest ? e.target.closest('[data-toggle-read],[data-remove-notice],[data-mark-all],[data-reset],[data-enter],[data-filter],[aria-disabled="true"]') : null;
+    var t = e.target.closest ? e.target.closest('[data-toggle-read],[data-remove-notice],[data-mark-all],[data-reset],[data-enter],[data-signout],[data-filter],[data-stage-filter],[data-prog-filter],[data-pa],[data-save-attendance],[aria-disabled="true"]') : null;
     if (!t) { return; }
 
     if (t.hasAttribute('data-enter')) {
@@ -401,8 +812,17 @@
       save();
       return;                                         // let the link navigate
     }
+    if (t.hasAttribute('data-signout')) {
+      state.role = null;
+      save();
+      return;
+    }
     if (t.hasAttribute('data-reset')) {
+      var keepRole = state.role;
       rawClear();
+      state = blank();
+      state.role = keepRole;
+      save();
       toast('Demo data reset.');
       setTimeout(function () { window.location.reload(); }, 450);
       return;
@@ -424,9 +844,22 @@
       save(); render(); toast('Notice removed from the board.');
       return;
     }
-    if (t.hasAttribute('data-filter')) {
-      resFilter = t.getAttribute('data-filter');
+    if (t.hasAttribute('data-filter')) { resFilter = t.getAttribute('data-filter'); render(); return; }
+    if (t.hasAttribute('data-stage-filter')) { stageFilter = t.getAttribute('data-stage-filter'); render(); return; }
+    if (t.hasAttribute('data-prog-filter')) { progFilter = t.getAttribute('data-prog-filter'); render(); return; }
+    if (t.hasAttribute('data-pa')) {
+      var sid = t.getAttribute('data-pa'), d = attDraft[attBatch], at = d.indexOf(sid);
+      if (t.getAttribute('data-val') === 'a' && at === -1) { d.push(sid); }
+      if (t.getAttribute('data-val') === 'p' && at !== -1) { d.splice(at, 1); }
       render();
+      return;
+    }
+    if (t.hasAttribute('data-save-attendance')) {
+      var day = toISO(todayDate());
+      state.att[day] = state.att[day] || {};
+      state.att[day][attBatch] = attDraft[attBatch].slice();
+      save(); render();
+      toast('Attendance saved for ' + attBatch + '. Absent students now show for Admissions and the Principal.');
       return;
     }
     if (t.getAttribute('aria-disabled') === 'true' && t.tagName === 'A') {
@@ -435,47 +868,84 @@
     }
   });
 
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.hasAttribute && t.hasAttribute('data-stage-for')) {
+      state.stage[t.getAttribute('data-stage-for')] = t.value;
+      save(); render();
+      toast(t.value === 'enrolled' ? 'Enrolled. The student now appears in Students, and Accounts sees the first instalment.' : 'Stage updated.');
+      return;
+    }
+    if (t.id === 'att-batch') { attBatch = t.value; render(); return; }
+    if (t.id === 'pay-student') { prefillAmount(); }
+  });
+
+  function check(form, rules) {
+    var ok = true, first = null;
+    rules.forEach(function (r) {
+      var el = form.elements[r[0]], err = $('[data-error-for="' + r[0] + '"]', form), bad = !r[1](el.value.trim());
+      el.setAttribute('aria-invalid', bad ? 'true' : 'false');
+      if (err) { err.textContent = r[2]; err.hidden = !bad; }
+      if (bad) { ok = false; first = first || el; }
+    });
+    if (first) { first.focus(); }
+    return ok;
+  }
+  function filled(v) { return !!v; }
+
   document.addEventListener('submit', function (e) {
     var form = e.target;
     if (form.hasAttribute('data-form-notice')) {
       e.preventDefault();
-      var title = form.elements.title, body = form.elements.body, date = form.elements.date;
-      var ok = true;
-      [[title, 'Add a title.'], [body, 'Write the notice text.']].forEach(function (p) {
-        var err = $('[data-error-for="' + p[0].name + '"]', form), bad = !p[0].value.trim();
-        p[0].setAttribute('aria-invalid', bad ? 'true' : 'false');
-        if (err) { err.textContent = p[1]; err.hidden = !bad; }
-        if (bad) { ok = false; }
-      });
-      if (!ok) { (title.value.trim() ? body : title).focus(); return; }
+      if (!check(form, [['title', filled, 'Add a title.'], ['body', filled, 'Write the notice text.']])) { return; }
       var n = {
         id: 'N-local-' + Date.now(),
-        date: date.value || toISO(todayDate()),
-        title: title.value.trim(),
-        body: body.value.trim(),
+        date: form.elements.date.value || toISO(todayDate()),
+        title: form.elements.title.value.trim(),
+        body: form.elements.body.value.trim(),
         pinned: form.elements.pinned.checked,
         addedAt: Date.now()
       };
       state.added.unshift(n);
       save();
       highlightId = n.id;
-      title.value = ''; body.value = ''; form.elements.pinned.checked = false; date.value = toISO(todayDate());
+      form.elements.title.value = ''; form.elements.body.value = ''; form.elements.pinned.checked = false;
+      form.elements.date.value = toISO(todayDate());
       render();
       toast('Posted. Students see it on their notice board now.');
       return;
     }
+    if (form.hasAttribute('data-form-inquiry')) {
+      e.preventDefault();
+      if (!check(form, [['name', filled, 'Add the name.'],
+        ['phone', function (v) { return v.replace(/\D/g, '').length >= 10; }, 'Add a phone number, for example 01712-345678.']])) { return; }
+      state.inq.unshift({
+        id: 'Q-L' + Date.now(), local: true, name: form.elements.name.value.trim(), phone: form.elements.phone.value.trim(),
+        programme: form.elements.programme.value, source: form.elements.source.value, note: form.elements.note.value.trim(),
+        date: toISO(todayDate()), followUp: isoOffset(1), stage: 'new'
+      });
+      save();
+      form.reset();
+      stageFilter = 'all';
+      render();
+      toast('Inquiry added. Follow-up set for tomorrow.');
+      return;
+    }
+    if (form.hasAttribute('data-form-payment')) {
+      e.preventDefault();
+      if (!check(form, [['amount', function (v) { return +v > 0; }, 'Enter the amount received.']])) { return; }
+      var no = 'BA/REC/2026/' + (1185 + state.payments.length);
+      state.payments.push({ no: no, studentId: form.elements.student.value, amount: Math.round(+form.elements.amount.value),
+        method: form.elements.method.value, date: toISO(todayDate()), at: Date.now() });
+      save();
+      lastReceipt = no;
+      render();
+      toast('Receipt ' + no + ' made. The student shows as paid for every department.');
+      return;
+    }
     if (form.hasAttribute('data-form-request')) {
       e.preventDefault();
-      var what = form.elements.what;
-      var err2 = $('[data-error-for="what"]', form);
-      if (!what.value.trim()) {
-        what.setAttribute('aria-invalid', 'true');
-        if (err2) { err2.textContent = 'Say what you need.'; err2.hidden = false; }
-        what.focus();
-        return;
-      }
-      what.setAttribute('aria-invalid', 'false');
-      if (err2) { err2.hidden = true; }
+      if (!check(form, [['what', filled, 'Say what you need.']])) { return; }
       form.reset();
       toast('Request noted for the office (demonstration only, nothing is sent).');
       return;
@@ -490,7 +960,7 @@
     if (e.target && e.target.id === 'student-search') { render(); }
   });
 
-  // A notice posted in another tab shows up here without a reload.
+  // A change made in another tab shows up here without a reload.
   window.addEventListener('storage', function (e) {
     if (e.key === KEY) { state = load(); render(); }
   });

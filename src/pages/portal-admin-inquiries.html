@@ -1,0 +1,50 @@
+<!--
+title: Inquiries
+description: Staff portal: every admission inquiry in one list, with stage and follow-up date.
+layout: portal
+portal_title: Inquiries
+-->
+<script src="/js/portal-seed.js"></script>
+<section data-reveal>
+  <div class="page-head reveal-child">
+    <h2 class="page-head__title">Inquiries</h2>
+    <p class="page-head__lead">Every inquiry is recorded here, whether it came from the website, WhatsApp, Facebook or a walk-in. Sample names and numbers.</p>
+  </div>
+  <ul class="pipeline reveal-child" data-mount="pipeline" aria-label="Inquiries by stage"></ul>
+  <div class="pgrid">
+    <section class="panel p-8 reveal-child" aria-labelledby="inq-list">
+      <div class="panel__head"><h3 class="panel__title" id="inq-list">All inquiries</h3><span class="panel__meta" data-count aria-live="polite"></span></div>
+      <div data-mount="inquiries"></div>
+    </section>
+    <section class="panel p-4 reveal-child" aria-labelledby="inq-new">
+      <div class="panel__head"><h3 class="panel__title" id="inq-new">Add an inquiry</h3></div>
+      <form data-form-inquiry novalidate>
+        <div class="field">
+          <label class="field__label" for="q-name">Name</label>
+          <input class="field__input" id="q-name" name="name" type="text" maxlength="80" autocomplete="off">
+          <p class="field__error" data-error-for="name" hidden></p>
+        </div>
+        <div class="field">
+          <label class="field__label" for="q-phone">Phone</label>
+          <input class="field__input" id="q-phone" name="phone" type="tel" maxlength="20" autocomplete="off" placeholder="01XXX-XXXXXX">
+          <p class="field__error" data-error-for="phone" hidden></p>
+        </div>
+        <div class="field">
+          <label class="field__label" for="q-prog">Programme</label>
+          <select class="field__input" id="q-prog" name="programme" data-programme-options></select>
+        </div>
+        <div class="field">
+          <label class="field__label" for="q-src">Came from</label>
+          <select class="field__input" id="q-src" name="source">
+            <option>Walk-in</option><option>Phone call</option><option>WhatsApp</option><option>Facebook</option><option>Website form</option><option>Former student referral</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field__label" for="q-note">Note</label>
+          <textarea class="field__input" id="q-note" name="note" rows="3"></textarea>
+        </div>
+        <button class="btn btn--primary" type="submit">Add inquiry</button>
+      </form>
+    </section>
+  </div>
+</section>

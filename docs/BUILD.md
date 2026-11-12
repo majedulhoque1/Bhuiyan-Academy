@@ -8,7 +8,8 @@ build.py                 # python build.py → writes *.html at root and portal/
 src/partials/head.html   # <head> template: {{title}}, {{description}}, noindex, fonts, css links
 src/partials/header.html # top bar + nav (Programmes, Admissions, About, Contact · Student Portal button · WhatsApp)
 src/partials/footer.html # claret wash, partner marks, address, legal links, "Demonstration preview built by EXPERIUS"
-src/partials/portal-shell.html # sidebar + topbar for portal pages: {{portal_title}}, {{active}}
+src/partials/portal-shell.html # STUDENT portal sidebar + topbar: {{portal_title}}, {{active}}
+src/partials/office-shell.html # STAFF portal shell (used for every portal-admin-* page); sidebar links filtered by department in js/portal.js ROLES
 src/pages/*.html         # page bodies with a front-matter comment: title, description, scripts (optional), layout: site|portal|bare
 src/data/site.json       # content for public pages (rendered by build.py via simple {{json:...}} loops OR inlined by the page author — pick inline + keep json as the source; do not add a template engine)
 src/data/portal-seed.json

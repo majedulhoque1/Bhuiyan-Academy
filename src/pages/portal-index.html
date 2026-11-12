@@ -1,8 +1,8 @@
 <!--
-title: Student portal
-description: Notices, timetable, results, fees and resources in one place. A demonstration with sample data.
+title: Portal sign in
+description: Sign in to the student portal or the staff portal. A demonstration with sample data.
 layout: bare
-portal_title: Student portal
+portal_title: Portal sign in
 -->
 <script src="/js/portal-seed.js"></script>
 <div class="demo-banner" role="note">DEMONSTRATION · SAMPLE DATA · BUILT BY EXPERIUS FOR BHUIYAN ACADEMY</div>
@@ -11,8 +11,8 @@ portal_title: Student portal
     <img class="login__crest reveal-child" src="/assets/brand/crest.png" width="88" height="88" alt="Bhuiyan Academy crest">
     <div class="login__lines">
       <p class="eyebrow reveal-child">Bhuiyan Academy</p>
-      <h1 class="login__title reveal-child">Student portal</h1>
-      <p class="login__sub reveal-child">Notices, timetable, results, fees and resources in one place.</p>
+      <h1 class="login__title reveal-child">Academy portal</h1>
+      <p class="login__sub reveal-child">One portal for students and a separate one for the office.</p>
     </div>
     <p class="login__demo reveal-child">Demonstration only. Sample data, saved in this browser.</p>
   </section>
@@ -20,23 +20,19 @@ portal_title: Student portal
   <section class="login__panel" data-reveal aria-labelledby="signin-title">
     <p class="reveal-child"><a class="btn btn--text" href="/">Back to website</a></p>
     <h2 class="login__h reveal-child" id="signin-title">Sign in</h2>
-
-    <form class="login__form reveal-child" data-form-disabled aria-disabled="true" novalidate>
-      <div class="field">
-        <label class="field__label" for="login-id">Student ID</label>
-        <input class="field__input" id="login-id" name="id" type="text" autocomplete="off" disabled aria-disabled="true">
-      </div>
-      <div class="field">
-        <label class="field__label" for="login-pass">Password</label>
-        <input class="field__input" id="login-pass" name="pass" type="password" autocomplete="off" disabled aria-disabled="true">
-      </div>
-      <p class="login__note">Disabled in the demonstration. The live portal will use each student's own ID and password.</p>
-    </form>
-
-    <div class="login__actions reveal-child">
-      <a class="btn btn--primary" href="/portal/dashboard" data-enter="student">Enter as demo student</a>
-      <a class="btn btn--secondary" href="/portal/admin-notices" data-enter="office">Enter office view</a>
+    <p class="login__note reveal-child">Choose who you are. Students and staff use separate portals.</p>
+    <div class="choices reveal-child">
+      <a class="choice" href="/portal/dashboard" data-enter="student">
+        <span class="choice__eyebrow eyebrow">Student login</span>
+        <span class="choice__title">Student portal</span>
+        <span class="choice__text">Notices, timetable, results, fees and resources. The demo student is Tasnim Rahman, a fictional second-year LLB student.</span>
+      </a>
+      <a class="choice" href="/portal/staff">
+        <span class="choice__eyebrow eyebrow">Staff login</span>
+        <span class="choice__title">Staff portal</span>
+        <span class="choice__text">For the office. Next you choose your department: Admissions, Accounts, Academic or Principal.</span>
+      </a>
     </div>
-    <p class="login__hint reveal-child">The student view shows Tasnim Rahman, a fictional second-year LLB student. The office view posts notices and lists students.</p>
+    <p class="login__hint reveal-child">In the live portal, each person signs in with their own ID and password.</p>
   </section>
 </main>

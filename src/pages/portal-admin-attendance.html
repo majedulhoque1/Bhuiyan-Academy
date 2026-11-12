@@ -1,0 +1,33 @@
+<!--
+title: Attendance
+description: Staff portal: take attendance for a batch and message absent students' guardians.
+layout: portal
+portal_title: Attendance
+-->
+<script src="/js/portal-seed.js"></script>
+<section data-reveal>
+  <div class="page-head reveal-child">
+    <h2 class="page-head__title">Attendance</h2>
+    <p class="page-head__lead" data-mount="att-date"></p>
+  </div>
+  <div class="pgrid">
+    <section class="panel p-7 reveal-child" aria-labelledby="att-take">
+      <div class="panel__head"><h3 class="panel__title" id="att-take">Take attendance</h3><span class="panel__meta" data-count></span></div>
+      <div class="field search">
+        <label class="field__label" for="att-batch">Batch</label>
+        <select class="field__input" id="att-batch" data-batch-options></select>
+      </div>
+      <div data-mount="roll"></div>
+      <button class="btn btn--primary" type="button" data-save-attendance>Save attendance</button>
+    </section>
+    <section class="panel p-5 reveal-child" aria-labelledby="att-absent">
+      <div class="panel__head"><h3 class="panel__title" id="att-absent">Absent today</h3><span class="panel__meta" data-mount="absent-count"></span></div>
+      <p class="panel__lead">Message each guardian on WhatsApp. The demonstration sends nothing.</p>
+      <div data-mount="absent"></div>
+    </section>
+    <section class="panel p-12 reveal-child" aria-labelledby="att-batches">
+      <div class="panel__head"><h3 class="panel__title" id="att-batches">By batch, today</h3></div>
+      <div data-mount="batches"></div>
+    </section>
+  </div>
+</section>

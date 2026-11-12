@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Students | Bhuiyan Academy</title>
-<meta name="description" content="Office view: the student list with fee status and WhatsApp links.">
+<meta name="description" content="Staff portal: the student list with attendance, fees and contacts.">
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#6B1F2A">
 <link rel="icon" href="/assets/brand/favicon.png" type="image/png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Bhuiyan Academy">
 <meta property="og:title" content="Students | Bhuiyan Academy">
-<meta property="og:description" content="Office view: the student list with fee status and WhatsApp links.">
+<meta property="og:description" content="Staff portal: the student list with attendance, fees and contacts.">
 <meta property="og:image" content="/assets/brand/crest.png">
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,31 +31,25 @@
 <div class="demo-banner" role="note">DEMONSTRATION · SAMPLE DATA · BUILT BY EXPERIUS FOR BHUIYAN ACADEMY</div>
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="shell">
-  <aside class="sidebar" id="sidebar" aria-label="Portal navigation">
+  <aside class="sidebar" id="sidebar" aria-label="Staff navigation">
     <div class="sidebar__brand">
       <img class="sidebar__crest" src="/assets/brand/crest.png" width="40" height="40" alt="Bhuiyan Academy crest">
       <div>
         <p class="sidebar__name">Bhuiyan Academy</p>
-        <p class="eyebrow">Student portal</p>
+        <p class="eyebrow" data-role-label>Staff portal</p>
       </div>
     </div>
-    <nav class="sidebar__nav" aria-label="Student">
-      <a class="sidebar__link" href="/portal/dashboard" data-nav="dashboard">Dashboard</a>
-      <a class="sidebar__link" href="/portal/notices" data-nav="notices">Notices</a>
-      <a class="sidebar__link" href="/portal/timetable" data-nav="timetable">Timetable</a>
-      <a class="sidebar__link" href="/portal/results" data-nav="results">Results</a>
-      <a class="sidebar__link" href="/portal/fees" data-nav="fees">Fees</a>
-      <a class="sidebar__link" href="/portal/resources" data-nav="resources">Resources</a>
-    </nav>
-    <hr class="sidebar__rule">
-    <p class="sidebar__group eyebrow">Office view</p>
-    <nav class="sidebar__nav" aria-label="Office">
-      <a class="sidebar__link" href="/portal/admin-notices" data-nav="admin-notices">Post a notice</a>
-      <a class="is-current sidebar__link" href="/portal/admin-students" data-nav="admin-students" aria-current="page">Students</a>
+    <nav class="sidebar__nav" aria-label="Staff" data-office-nav>
+      <a class="sidebar__link" href="/portal/admin-dashboard" data-nav="admin-dashboard" data-page="admin-dashboard">Today</a>
+      <a class="sidebar__link" href="/portal/admin-inquiries" data-nav="admin-inquiries" data-page="admin-inquiries">Inquiries</a>
+      <a class="sidebar__link" href="/portal/admin-fees" data-nav="admin-fees" data-page="admin-fees">Fees &amp; receipts</a>
+      <a class="sidebar__link" href="/portal/admin-attendance" data-nav="admin-attendance" data-page="admin-attendance">Attendance</a>
+      <a class="is-current sidebar__link" href="/portal/admin-students" data-nav="admin-students" data-page="admin-students" aria-current="page">Students</a>
+      <a class="sidebar__link" href="/portal/admin-notices" data-nav="admin-notices" data-page="admin-notices">Post a notice</a>
     </nav>
     <div class="sidebar__user">
-      <p class="sidebar__student"><span data-student-name>Student</span><br><span class="sidebar__id" data-student-id></span></p>
-      <a class="sidebar__signout" href="/portal/">Sign out</a>
+      <p class="sidebar__student"><span data-staff-name>Staff</span><br><span class="sidebar__id">Demo staff</span></p>
+      <a class="sidebar__signout" href="/portal/" data-signout>Sign out</a>
     </div>
   </aside>
   <div class="shell__scrim" data-drawer-close></div>
@@ -63,12 +57,8 @@
   <div class="shell__main">
     <header class="topbar">
       <button class="topbar__menu" type="button" aria-expanded="false" aria-controls="sidebar" data-drawer-toggle>Menu</button>
-      <h1 class="topbar__title">Students</h1>
+      <h1 class="topbar__title" data-topbar-title>Students</h1>
       <div class="topbar__actions">
-        <div class="viewchip" data-view="office" role="group" aria-label="Switch view">
-          <a href="/portal/dashboard" data-seg="student">Student</a>
-          <a href="/portal/admin-notices" data-seg="office">Office</a>
-        </div>
         <a class="btn btn--text" href="/">Back to website</a>
       </div>
     </header>

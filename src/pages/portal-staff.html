@@ -1,0 +1,46 @@
+<!--
+title: Staff portal
+description: Choose your department to enter the staff portal. A demonstration with sample data.
+layout: bare
+portal_title: Staff portal
+-->
+<script src="/js/portal-seed.js"></script>
+<div class="demo-banner" role="note">DEMONSTRATION · SAMPLE DATA · BUILT BY EXPERIUS FOR BHUIYAN ACADEMY</div>
+<main class="login" id="main">
+  <section class="login__brand" data-reveal>
+    <img class="login__crest reveal-child" src="/assets/brand/crest.png" width="88" height="88" alt="Bhuiyan Academy crest">
+    <div class="login__lines">
+      <p class="eyebrow reveal-child">Bhuiyan Academy</p>
+      <h1 class="login__title reveal-child">Staff portal</h1>
+      <p class="login__sub reveal-child">Each department sees its own work. The records are shared, so nothing is entered twice.</p>
+    </div>
+    <p class="login__demo reveal-child">Demonstration only. Sample data, saved in this browser.</p>
+  </section>
+
+  <section class="login__panel" data-reveal aria-labelledby="dept-title">
+    <p class="reveal-child"><a class="btn btn--text" href="/portal/">Back to sign in</a></p>
+    <h2 class="login__h reveal-child" id="dept-title">Choose your department</h2>
+    <div class="choices reveal-child">
+      <a class="choice" href="/portal/admin-dashboard" data-enter="admissions">
+        <span class="choice__eyebrow eyebrow">Admissions &amp; front desk</span>
+        <span class="choice__title">Admissions</span>
+        <span class="choice__text">Inquiries from the website, WhatsApp, Facebook and walk-ins. Follow-ups, visits and enrolments.</span>
+      </a>
+      <a class="choice" href="/portal/admin-dashboard" data-enter="accounts">
+        <span class="choice__eyebrow eyebrow">Accounts desk</span>
+        <span class="choice__title">Accounts</span>
+        <span class="choice__text">Fee dues, payments, receipts and reminders.</span>
+      </a>
+      <a class="choice" href="/portal/admin-dashboard" data-enter="academic">
+        <span class="choice__eyebrow eyebrow">Academic office</span>
+        <span class="choice__title">Academic</span>
+        <span class="choice__text">Today's classes, attendance, messages to guardians and notices.</span>
+      </a>
+      <a class="choice" href="/portal/admin-dashboard" data-enter="principal">
+        <span class="choice__eyebrow eyebrow">Principal &amp; management</span>
+        <span class="choice__title">Principal</span>
+        <span class="choice__text">One overview of every department: inquiries, collections and attendance.</span>
+      </a>
+    </div>
+  </section>
+</main>

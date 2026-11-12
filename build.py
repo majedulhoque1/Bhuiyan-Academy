@@ -141,7 +141,8 @@ def build_page(src_file, parts):
                + '<main id="main">\n' + body.strip() + "\n</main>\n"
                + parts["footer"] + "</body>\n</html>\n")
     elif layout == "portal":
-        shell = mark_current(parts["portal-shell"], nav).replace("{{content}}", body.strip())
+        shell_part = parts["office-shell"] if nav.startswith("admin") else parts["portal-shell"]
+        shell = mark_current(shell_part, nav).replace("{{content}}", body.strip())
         doc = head + shell + "</body>\n</html>\n"
     else:
         doc = head + body.strip() + "\n</body>\n</html>\n"
@@ -175,7 +176,7 @@ def missing_refs(doc):
 
 
 def main():
-    parts = {n: read(PARTS / (n + ".html")) for n in ("head", "header", "footer", "portal-shell")}
+    parts = {n: read(PARTS / (n + ".html")) for n in ("head", "header", "footer", "portal-shell", "office-shell")}
     sources = sorted(PAGES.glob("*.html"))
     if not sources:
         print("build: no pages in src/pages/")

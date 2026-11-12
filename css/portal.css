@@ -1,5 +1,5 @@
 /* Bhuiyan Academy preview: student portal (sample data).
-   Contents: 1 shell · 2 sidebar · 3 topbar + view chip · 4 panels + grid · 5 tables
+   Contents: 1 shell · 2 sidebar · 3 topbar · 4 panels + grid · 5 tables
              6 stat rows · 7 tabs, kv, empty state, toast · 8 mobile drawer · 9 reduced motion */
 
 /* 1 · Shell ------------------------------------------------------------- */
@@ -45,7 +45,7 @@
 }
 .sidebar__signout:hover{background-size:100% 1px;color:var(--parchment)}
 
-/* 3 · Topbar + view chip ---------------------------------------------- */
+/* 3 · Topbar ---------------------------------------------- */
 .topbar{
   position:sticky;top:0;z-index:20;
   display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
@@ -59,11 +59,6 @@
   display:none;padding:.5rem .9rem;background:transparent;border:1px solid var(--claret);border-radius:var(--radius-s);
   color:var(--claret);font-weight:500;font-size:.875rem;
 }
-.viewchip{display:inline-flex;border:1px solid var(--line);border-radius:var(--radius-s);overflow:hidden;background:var(--paper)}
-.viewchip a{padding:.4rem .85rem;color:var(--slate);text-decoration:none;font-size:.8125rem;font-weight:500;transition:background-color var(--dur-hover),color var(--dur-hover)}
-.viewchip a:hover{color:var(--claret)}
-.viewchip[data-view="student"] [data-seg="student"],
-.viewchip[data-view="office"] [data-seg="office"]{background:var(--claret);color:var(--parchment)}
 
 /* 4 · Panels + grid -------------------------------------------------------- */
 .pgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(16px,2vw,24px)}
@@ -255,3 +250,61 @@ ol.inst{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
   .inst__status{grid-column:2;grid-row:1}
   .inst__money{grid-column:3;grid-row:1;grid-template-columns:auto auto;align-items:center;gap:.75rem}
 }
+
+/* 17 · Sign-in choices (login + department picker) ------------------------------- */
+.choices{display:grid;gap:.75rem}
+@media (min-width:620px){.choices{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.choice{
+  display:grid;gap:.35rem;align-content:start;padding:1.1rem 1.2rem 1.25rem;
+  background:var(--paper);border:1px solid var(--line);border-left:2px solid var(--gold);
+  color:var(--ink);text-decoration:none;
+  transition:border-color var(--dur-hover),box-shadow var(--dur-hover),transform var(--dur-hover) var(--ease-out);
+}
+.choice:hover{border-color:var(--claret);box-shadow:var(--shadow);transform:translateY(-2px)}
+.choice:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.choice__eyebrow{color:var(--slate)}
+.choice__title{font-family:var(--font-display);font-size:1.5rem;line-height:1.1;color:var(--claret)}
+.choice__text{font-size:.9375rem;color:var(--slate)}
+
+/* 18 · Staff portal: rows, tags, pipeline, P/A toggle, chips ----------------------- */
+.rows{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--line)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:.5rem 1.25rem;flex-wrap:wrap;padding:.85rem 0;border-top:1px solid var(--line)}
+.row__main{min-width:0;flex:1 1 16rem}
+.row__title{font-weight:600}
+.row__sub{font-size:.875rem;color:var(--slate)}
+.row__note{font-size:.875rem;margin-top:.2rem}
+.row__side{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.row__side .wa{margin-left:0}
+.row__amount{font-family:var(--font-serif);font-weight:600;font-variant-numeric:tabular-nums lining-nums;white-space:nowrap}
+.tag{font-family:var(--font-mono);font-weight:500;font-size:.6875rem;text-transform:uppercase;letter-spacing:.07em;white-space:nowrap}
+.tag--late{color:var(--due)}
+.tag--today{color:var(--warn)}
+.pipeline{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));border:1px solid var(--line);background:var(--paper)}
+.pipeline li+li{border-left:1px solid var(--line)}
+.pipeline__step{
+  width:100%;display:grid;gap:.15rem;justify-items:start;padding:.9rem 1rem;background:none;border:0;border-bottom:2px solid transparent;text-align:left;
+  transition:background-color var(--dur-hover),border-color var(--dur-hover);
+}
+.pipeline__step:hover{background:rgba(176,141,87,.06)}
+.pipeline__step[aria-pressed="true"]{border-bottom-color:var(--gold);background:rgba(176,141,87,.08)}
+.pipeline__n{font-family:var(--font-display);font-size:1.75rem;line-height:1;font-variant-numeric:tabular-nums}
+.pipeline__label{font-family:var(--font-mono);font-weight:500;font-size:.6875rem;text-transform:uppercase;letter-spacing:.07em;color:var(--slate)}
+.field__input--sm{padding:.4rem 2.2rem .4rem .6rem;font-size:.875rem;min-width:9rem}
+.form-row{display:grid;gap:0 1rem}
+@media (min-width:620px){.form-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pa{display:inline-flex;border:1px solid var(--line);border-radius:var(--radius-s);overflow:hidden;background:var(--paper)}
+.pa button{padding:.4rem .85rem;background:none;border:0;font-size:.8125rem;font-weight:500;color:var(--slate);transition:background-color var(--dur-hover),color var(--dur-hover)}
+.pa button+button{border-left:1px solid var(--line)}
+.pa [data-val="p"][aria-pressed="true"]{background:var(--ok);color:var(--parchment)}
+.pa [data-val="a"][aria-pressed="true"]{background:var(--due);color:var(--parchment)}
+[data-save-attendance]{margin-top:1.25rem}
+.chips{margin:-.25rem 0 1rem;flex-wrap:wrap;gap:.25rem 1.25rem}
+.kv__num{font-family:var(--font-serif);font-weight:600;font-size:1.15rem;text-align:right;font-variant-numeric:tabular-nums lining-nums}
+@media (min-width:1000px){
+  .stats--wide{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0 1.5rem;border-bottom:0}
+  .stats--wide .stat{flex-direction:column;align-items:flex-start;border-top:1px solid var(--line)}
+  .stats--wide .stat__value,.stats--wide .stat__note{text-align:left}
+}
+tr.is-new td{animation:ba-flash 1.4s var(--ease-out)}
+@media (prefers-reduced-motion:reduce){.choice{transition:none}.choice:hover{transform:none}}
+.data td.mono{font-family:var(--font-mono);font-size:.875rem;font-variant-numeric:tabular-nums;white-space:nowrap}
