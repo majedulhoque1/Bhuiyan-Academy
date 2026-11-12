@@ -1,0 +1,36 @@
+<!--
+title: Dashboard
+description: Your next class, assessment countdown, notices and fee status at a glance.
+layout: portal
+portal_title: Dashboard
+-->
+<script src="/js/portal-seed.js"></script>
+<section data-reveal>
+  <div class="page-head reveal-child">
+    <h2 class="page-head__title">Welcome back, <span data-first-name>Tasnim</span></h2>
+    <p class="page-head__lead" data-student-line></p>
+  </div>
+  <div class="pgrid">
+    <section class="panel p-5 reveal-child" aria-labelledby="glance">
+      <div class="panel__head"><h3 class="panel__title" id="glance">At a glance</h3></div>
+      <ul class="stats" data-mount="stats"></ul>
+    </section>
+    <section class="panel p-7 reveal-child" aria-labelledby="today">
+      <div class="panel__head"><h3 class="panel__title" id="today">Today's timetable</h3><span class="panel__meta" data-today></span></div>
+      <div data-mount="today"></div>
+    </section>
+    <section class="panel p-7 reveal-child" aria-labelledby="latest">
+      <div class="panel__head"><h3 class="panel__title" id="latest">Latest notices</h3><a class="btn btn--text" href="/portal/notices">All notices</a></div>
+      <div data-mount="latest"></div>
+    </section>
+    <section class="panel p-5 reveal-child" aria-labelledby="quick">
+      <div class="panel__head"><h3 class="panel__title" id="quick">Quick links</h3></div>
+      <ul class="quick">
+        <li><a href="/portal/timetable">Weekly timetable<span>Saturday to Thursday</span></a></li>
+        <li><a href="/portal/results">Mock results<span>Marks and grade bands</span></a></li>
+        <li><a href="/portal/fees">Fee statement<span>Instalments and receipts</span></a></li>
+        <li><a href="/portal/resources">Resources<span>Notes, past papers, reading</span></a></li>
+      </ul>
+    </section>
+  </div>
+</section>

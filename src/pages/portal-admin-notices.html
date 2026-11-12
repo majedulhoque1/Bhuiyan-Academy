@@ -1,0 +1,40 @@
+<!--
+title: Post a notice
+description: Office view: post a notice that students see on their notice board straight away.
+layout: portal
+portal_title: Post a notice
+-->
+<script src="/js/portal-seed.js"></script>
+<section data-reveal>
+  <div class="page-head reveal-child">
+    <h2 class="page-head__title">Post a notice</h2>
+    <p class="page-head__lead">Students see this immediately on their notice board. <a href="/portal/notices">Open the student notice board</a></p>
+  </div>
+  <div class="pgrid">
+    <section class="panel p-5 reveal-child" aria-labelledby="new-notice">
+      <div class="panel__head"><h3 class="panel__title" id="new-notice">New notice</h3></div>
+      <form data-form-notice novalidate>
+        <div class="field">
+          <label class="field__label" for="n-title">Title</label>
+          <input class="field__input" id="n-title" name="title" type="text" maxlength="120" autocomplete="off">
+          <p class="field__error" data-error-for="title" hidden></p>
+        </div>
+        <div class="field">
+          <label class="field__label" for="n-body">Notice text</label>
+          <textarea class="field__input" id="n-body" name="body" rows="5"></textarea>
+          <p class="field__error" data-error-for="body" hidden></p>
+        </div>
+        <div class="field">
+          <label class="field__label" for="n-date">Date</label>
+          <input class="field__input" id="n-date" name="date" type="date" data-default-today>
+        </div>
+        <label class="check"><input type="checkbox" name="pinned"> Pin to the top of the board</label>
+        <button class="btn btn--primary" type="submit">Post notice</button>
+      </form>
+    </section>
+    <section class="panel p-7 reveal-child" aria-labelledby="board">
+      <div class="panel__head"><h3 class="panel__title" id="board">On the student board now</h3><span class="panel__meta" data-count></span></div>
+      <div data-mount="board"></div>
+    </section>
+  </div>
+</section>

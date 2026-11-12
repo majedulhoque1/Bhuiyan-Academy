@@ -1,0 +1,65 @@
+<div class="demo-banner" role="note">DEMONSTRATION · SAMPLE DATA · BUILT BY EXPERIUS FOR BHUIYAN ACADEMY</div>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="sidebar" id="sidebar" aria-label="Portal navigation">
+    <div class="sidebar__brand">
+      <img class="sidebar__crest" src="/assets/brand/crest.png" width="40" height="40" alt="Bhuiyan Academy crest">
+      <div>
+        <p class="sidebar__name">Bhuiyan Academy</p>
+        <p class="eyebrow">Student portal</p>
+      </div>
+    </div>
+    <nav class="sidebar__nav" aria-label="Student">
+      <a class="sidebar__link" href="/portal/dashboard" data-nav="dashboard">Dashboard</a>
+      <a class="sidebar__link" href="/portal/notices" data-nav="notices">Notices</a>
+      <a class="sidebar__link" href="/portal/timetable" data-nav="timetable">Timetable</a>
+      <a class="sidebar__link" href="/portal/results" data-nav="results">Results</a>
+      <a class="sidebar__link" href="/portal/fees" data-nav="fees">Fees</a>
+      <a class="sidebar__link" href="/portal/resources" data-nav="resources">Resources</a>
+    </nav>
+    <hr class="sidebar__rule">
+    <p class="sidebar__group eyebrow">Office view</p>
+    <nav class="sidebar__nav" aria-label="Office">
+      <a class="sidebar__link" href="/portal/admin-notices" data-nav="admin-notices">Post a notice</a>
+      <a class="sidebar__link" href="/portal/admin-students" data-nav="admin-students">Students</a>
+    </nav>
+    <div class="sidebar__user">
+      <p class="sidebar__student"><span data-student-name>Student</span><br><span class="sidebar__id" data-student-id></span></p>
+      <a class="sidebar__signout" href="/portal/">Sign out</a>
+    </div>
+  </aside>
+  <div class="shell__scrim" data-drawer-close></div>
+
+  <div class="shell__main">
+    <header class="topbar">
+      <button class="topbar__menu" type="button" aria-expanded="false" aria-controls="sidebar" data-drawer-toggle>Menu</button>
+      <h1 class="topbar__title">{{portal_title}}</h1>
+      <div class="topbar__actions">
+        <div class="viewchip" data-view="{{view}}" role="group" aria-label="Switch view">
+          <a href="/portal/dashboard" data-seg="student">Student</a>
+          <a href="/portal/admin-notices" data-seg="office">Office</a>
+        </div>
+        <a class="btn btn--text" href="/">Back to website</a>
+      </div>
+    </header>
+    <main class="shell__content" id="main">
+{{content}}
+    </main>
+  </div>
+</div>
+<script>
+(function () {
+  var sidebar = document.getElementById('sidebar');
+  var btn = document.querySelector('[data-drawer-toggle]');
+  if (!sidebar || !btn) return;
+  function set(open) {
+    sidebar.classList.toggle('is-open', open);
+    document.body.classList.toggle('drawer-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  btn.addEventListener('click', function () { set(!sidebar.classList.contains('is-open')); });
+  document.querySelector('[data-drawer-close]').addEventListener('click', function () { set(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { set(false); } });
+  window.matchMedia('(min-width: 900px)').addEventListener('change', function (e) { if (e.matches) set(false); });
+})();
+</script>

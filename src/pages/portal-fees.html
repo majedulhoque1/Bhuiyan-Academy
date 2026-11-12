@@ -1,0 +1,31 @@
+<!--
+title: Fees
+description: Fee statement with instalments, receipts and totals.
+layout: portal
+portal_title: Fees
+-->
+<script src="/js/portal-seed.js"></script>
+<section data-reveal>
+  <div class="page-head reveal-child">
+    <h2 class="page-head__title">Fee statement</h2>
+    <p class="page-head__lead">Three instalments for the year. Pay at the accounts desk and keep your receipt.</p>
+  </div>
+  <div class="pgrid">
+    <section class="panel p-4 reveal-child" aria-labelledby="fee-summary">
+      <div class="panel__head"><h3 class="panel__title" id="fee-summary">Summary</h3></div>
+      <ul class="stats" data-mount="summary"></ul>
+    </section>
+    <section class="panel p-8 reveal-child" aria-labelledby="statement">
+      <div class="panel__head"><h3 class="panel__title" id="statement">Statement</h3><span class="panel__meta">BDT</span></div>
+      <div data-mount="statement"></div>
+    </section>
+    <section class="panel p-12 reveal-child" aria-labelledby="pay">
+      <div class="panel__head"><h3 class="panel__title" id="pay">Receipts and payment</h3></div>
+      <div class="actions-row">
+        <a class="btn btn--secondary" href="/portal/fees" aria-disabled="true" role="button">Download receipt</a>
+        <p class="note">Receipts download in the live portal. In this demonstration the paid receipt number is shown in the statement.</p>
+      </div>
+      <p class="note">Pay online: coming with the live portal.</p>
+    </section>
+  </div>
+</section>

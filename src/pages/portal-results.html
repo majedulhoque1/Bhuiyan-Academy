@@ -1,0 +1,31 @@
+<!--
+title: Results
+description: Mock marks and grade bands for each module.
+layout: portal
+portal_title: Results
+-->
+<script src="/js/portal-seed.js"></script>
+<section data-reveal>
+  <div class="page-head reveal-child">
+    <h2 class="page-head__title">Mock results</h2>
+    <p class="page-head__lead">Mock marks are internal; University of London results are issued by the University.</p>
+  </div>
+  <div class="pgrid">
+    <section class="panel p-4 reveal-child" aria-labelledby="summary">
+      <div class="panel__head"><h3 class="panel__title" id="summary">Summary</h3></div>
+      <ul class="stats" data-mount="summary"></ul>
+    </section>
+    <section class="panel p-8 reveal-child" aria-labelledby="reading">
+      <div class="panel__head"><h3 class="panel__title" id="reading">How to read this page</h3></div>
+      <dl class="kv">
+        <dt>Mock 1, mock 2</dt><dd>Internal practice papers marked by the faculty, out of 100.</dd>
+        <dt>Grade band</dt><dd>The University of London classification the latest mock maps to. An indication, not a result.</dd>
+        <dt>Bar</dt><dd>Mock 2 mark against two ticks: 40 (pass) and 70 (first).</dd>
+      </dl>
+    </section>
+    <section class="panel p-12 reveal-child" aria-labelledby="marks-title">
+      <div class="panel__head"><h3 class="panel__title" id="marks-title">Marks by module</h3><span class="panel__meta">Sample data</span></div>
+      <div data-mount="marks"></div>
+    </section>
+  </div>
+</section>

@@ -1,0 +1,21 @@
+<!--
+title: Students
+description: Office view: the student list with fee status and WhatsApp links.
+layout: portal
+portal_title: Students
+-->
+<script src="/js/portal-seed.js"></script>
+<section data-reveal>
+  <div class="page-head reveal-child">
+    <h2 class="page-head__title">Students</h2>
+    <p class="page-head__lead">Sample records only. Phone numbers are fictional.</p>
+  </div>
+  <section class="panel reveal-child" aria-labelledby="roster">
+    <div class="panel__head"><h3 class="panel__title" id="roster">Roster</h3><span class="panel__meta" data-count aria-live="polite"></span></div>
+    <div class="field search">
+      <label class="field__label" for="student-search">Search by name, ID or programme</label>
+      <input class="field__input" id="student-search" type="search" autocomplete="off">
+    </div>
+    <div data-mount="students"></div>
+  </section>
+</section>

@@ -1,0 +1,192 @@
+{
+  "org": {
+    "name": "Bhuiyan Academy",
+    "founded": 1989,
+    "tagline": "A UK law degree is a gateway into many prestigious careers, both inside and outside the legal system.",
+    "address": "Navana Newbury Place (4th Floor), 4/1/A, Sobhanbagh, Dhanmondi-27, Dhaka-1207",
+    "phones": {
+      "mobile": ["01719104172", "01713039970", "01755557252", "01318748332"],
+      "landline": ["+88 02 41010910", "+88 02 41010912", "+88 02 41010913"]
+    },
+    "whatsapp": "8801755557252",
+    "messenger": "https://www.facebook.com/DolonRichard",
+    "emails": ["infonu@bhuiyanacademyedu.com", "bhuiyanacademy1205@gmail.com", "info@bhuiyanacademyedu.com"],
+    "facebook": "https://www.facebook.com/Bhuiyan1989/",
+    "officeHours": "Ask us",
+    "recognition": "University of London Recognised Teaching Centre"
+  },
+  "partners": [
+    { "name": "University of London", "role": "Awarding body (CertHE Common Law, LL.B Hons). Academy is a Recognised Teaching Centre", "file": "assets/partners/uol-rtc-badge.jpg" },
+    { "name": "University of Hertfordshire", "role": "Awarding body (LLB Hons SDL, LLM SDL)", "file": "assets/partners/uh-logo.svg" },
+    { "name": "National University, Bangladesh", "role": "Awarding body (BBA)", "file": "assets/partners/nu-logo.png" }
+  ],
+  "programmes": [
+    {
+      "id": "certhe",
+      "serial": "01",
+      "body": "University of London",
+      "title": "CertHE in Common Law",
+      "forWhom": "For applicants without A Levels.",
+      "duration": "One year (the first year of the University of London LLB, 120 credits)",
+      "assessment": "University of London examinations. Final examinations are conducted by the British Council, Dhaka, and marked and certified by the University of London.",
+      "entry": [
+        "Five O Levels with at least four C grades, or",
+        "SSC and HSC with one 1st division and one 2nd division (old system), or",
+        "A total GPA of 5 or more (minimum 2 SSC + 2 HSC + 1).",
+        "The Academy may require a written English test and a viva."
+      ],
+      "nextStep": "Ask a student counsellor to check your results against these routes.",
+      "level": "Level 4",
+      "note": "Can lead to the University of London LLB, subject to progression. The Academy was the first institution in Bangladesh permitted by the University of London to run this programme (earlier: Diploma in Law).",
+      "modules": [
+        { "year": "CertHE / LLB 1st year", "credits": 120, "name": "Contract law", "code": "LA1040" },
+        { "year": "CertHE / LLB 1st year", "credits": 120, "name": "Criminal law", "code": "LA1010" },
+        { "year": "CertHE / LLB 1st year", "credits": 120, "name": "Legal system and method", "code": "LA1031" },
+        { "year": "CertHE / LLB 1st year", "credits": 120, "name": "Public law", "code": "LA1020" }
+      ]
+    },
+    {
+      "id": "llb-uol",
+      "serial": "02",
+      "body": "University of London",
+      "title": "LL.B (Hons)",
+      "forWhom": "The classic route to a UK law degree from Dhaka.",
+      "duration": "3 years",
+      "assessment": "University of London examinations. Final examinations are conducted by the British Council, Dhaka, and marked and certified by the University of London.",
+      "entry": [
+        "Meet the University of London General Entrance Requirements for international students, and",
+        "(a) a minimum C in 3 O Levels and 2 A Levels, or",
+        "(b) a minimum C in 1 O Level and 3 A Levels.",
+        "Apply to the University of London for registration through the Academy."
+      ],
+      "nextStep": "Admissions are open for the October 2027 assessment cycle. Ask us for the registration steps.",
+      "level": "Levels 4 to 6",
+      "note": "Module list as posted by the Academy on 8 Nov 2026.",
+      "modules": [
+        { "year": "CertHE / LLB 1st year", "credits": 120, "name": "Contract law", "code": "LA1040" },
+        { "year": "CertHE / LLB 1st year", "credits": 120, "name": "Criminal law", "code": "LA1010" },
+        { "year": "CertHE / LLB 1st year", "credits": 120, "name": "Legal system and method", "code": "LA1031" },
+        { "year": "CertHE / LLB 1st year", "credits": 120, "name": "Public law", "code": "LA1020" },
+        { "year": "LLB 2nd year", "credits": 120, "name": "Tort law", "code": "LA2001" },
+        { "year": "LLB 2nd year", "credits": 120, "name": "Administrative law", "code": "LA2008" },
+        { "year": "LLB 2nd year", "credits": 120, "name": "EU law", "code": "LA2024" },
+        { "year": "LLB 2nd year", "credits": 120, "name": "Property law", "code": "LA2003" },
+        { "year": "LLB 3rd year", "credits": 120, "name": "Jurisprudence and legal theory", "code": "LA3005" },
+        { "year": "LLB 3rd year", "credits": 120, "name": "Equity and Trusts", "code": "LA3002" },
+        { "year": "LLB 3rd year", "credits": 120, "name": "Company law", "code": "LA3021", "option": "Two more modules chosen from three" },
+        { "year": "LLB 3rd year", "credits": 120, "name": "Dissertation", "code": "LA3200", "option": "Two more modules chosen from three" },
+        { "year": "LLB 3rd year", "credits": 120, "name": "Introduction to Islamic law", "code": "LA3028", "option": "Two more modules chosen from three" }
+      ]
+    },
+    {
+      "id": "llb-uh",
+      "serial": "03",
+      "body": "University of Hertfordshire",
+      "title": "LLB (Hons) SDL and LLM (SDL)",
+      "forWhom": "A UK university degree with a route into Bar Training at Hertfordshire.",
+      "duration": "Ask us",
+      "assessment": "Ask us",
+      "entry": ["Ask us"],
+      "nextStep": "The January 2027 intake is open for Levels 4, 5 and 6. Ask a counsellor how to apply.",
+      "level": "Levels 4, 5 and 6 (LLB)",
+      "note": "Supported Distance Learning (SDL) at the Academy. After the LLB, students can continue to the University of Hertfordshire Bar Training Course in the UK.",
+      "modules": []
+    },
+    {
+      "id": "bba",
+      "serial": "04",
+      "body": "National University, Bangladesh",
+      "title": "BBA",
+      "forWhom": "For business graduates-to-be who want an English-medium degree.",
+      "duration": "4 years, 8 semesters of 20+ weeks each",
+      "assessment": "Ask us",
+      "entry": ["Ask us"],
+      "nextStep": "Talk to the BBA programme team about the next admission.",
+      "level": "Bachelor",
+      "note": "English medium. Majors: Accounting, Finance, Management, Marketing.",
+      "modules": []
+    }
+  ],
+  "pathway": [
+    { "label": "CertHE in Common Law", "sub": "University of London, Level 4. The entry point for applicants without A Levels.", "year": "Year 1" },
+    { "label": "LL.B (Hons)", "sub": "University of London, taught at the Academy, with examinations at the British Council, Dhaka.", "year": "Years 2 and 3" },
+    { "label": "LLB (Hons) SDL", "sub": "University of Hertfordshire, Levels 4, 5 and 6, an alternative route in Dhaka.", "year": "Alongside, from January 2027 intake" },
+    { "label": "Bar Training Course", "sub": "University of Hertfordshire, in the UK, after the LLB.", "year": "After the LLB" },
+    { "label": "Called to the Bar", "sub": "Pupillage Advisory Service at the Academy helps with CVs, chambers and mock interviews.", "year": "Ask us" }
+  ],
+  "proof": [
+    { "figure": "1989", "label": "Founded in Dhaka by the late Barrister A.K.M. Mozammel Hoque Bhuiyan", "fact": "F1" },
+    { "figure": "600+", "label": "Graduates, barristers and business graduates (alumni include current Justices of the Supreme Court of Bangladesh, MPs and government officials, among others)", "fact": "F4" },
+    { "figure": "First", "label": "Institution in Bangladesh permitted by the University of London to run the CertHE Common Law", "fact": "F3" },
+    { "figure": "RTC", "label": "University of London Recognised Teaching Centre", "fact": "F2" }
+  ],
+  "leadership": [
+    { "name": "Dr Rabia Bhuiyan", "designation": "Principal", "quals": "MA, LLB (DU); LLM, JSD (Cornell); BCL (Durham); Barrister-at-Law, Lincoln's Inn; Senior Advocate, Supreme Court of Bangladesh" },
+    { "name": "Barrister Shahanara Bhuiyan", "designation": "Vice Principal", "quals": "Ask us" },
+    { "name": "Barrister Towkir Aziz", "designation": "Registrar (UoL and UH); Programme Leader, UH LLB and LLM SDL", "quals": "Barrister" },
+    { "name": "Barrister Enamul Kabir Shadhin", "designation": "Programme Leader (UoL)", "quals": "Barrister" },
+    { "name": "Farhana Rahman", "designation": "Head of Admin and International Relations; Head of Department, BBA", "quals": "Ask us" },
+    { "name": "Mazharul Hoque Bhuiyan", "designation": "Principal, BBA Programme; Head of Publications", "quals": "Ask us" },
+    { "name": "Dolon Richard D-Costa", "designation": "IT in-charge; Course Co-ordinator and Lecturer (BBA)", "quals": "Ask us" }
+  ],
+  "faculty": [
+    { "name": "Mirazul Hossain Khan", "designation": "Faculty, Law", "quals": "Barrister, LLB (Hons) London" },
+    { "name": "AKM Rabiul Hassan", "designation": "Advisor", "quals": "Barrister, LLB (Hons) London" },
+    { "name": "M Taiful Seraj", "designation": "Faculty, Law", "quals": "Barrister, LLB (Hons) London" },
+    { "name": "Khondaker M Sayadul Kawser", "designation": "Faculty, Law", "quals": "Barrister, LLB (Hons) London" },
+    { "name": "Enamul Kabir Shadhin", "designation": "Faculty, Law; Programme Leader (UoL)", "quals": "Barrister, LLB (Hons) London" },
+    { "name": "Towkir Aziz", "designation": "Faculty, Law; Registrar", "quals": "Barrister, LLB (Hons) London" },
+    { "name": "Md Miftahur Rahman", "designation": "Student Counselor", "quals": "Barrister, LLB (Hons) London" },
+    { "name": "Ushama Islam", "designation": "Faculty, Law", "quals": "Barrister, LLB (Hons) London" },
+    { "name": "Muna Mohammad Mozammel Hoque", "designation": "Faculty, Law", "quals": "Barrister, LLB (Hons) London" },
+    { "name": "Sadman Sakib", "designation": "Faculty, Law", "quals": "Barrister, LLB (Hons) London" },
+    { "name": "Farhana Rahman", "designation": "English practice", "quals": "Ask us" },
+    { "name": "Dolon Richard D-Costa", "designation": "Computer course", "quals": "Ask us" }
+  ],
+  "facilities": [
+    { "title": "Library", "text": "More than 6,000 books, including the All England Law Reports." },
+    { "title": "Computer lab and Wi-Fi", "text": "A computer lab and campus Wi-Fi for students." },
+    { "title": "Cafeteria", "text": "A cafeteria on campus." },
+    { "title": "English language classes", "text": "Including classes for the English language requirement of the Bar of England and Wales." },
+    { "title": "Tutorials and revision", "text": "Tutorials, revision classes, pre-mock and mock exams, and make-up classes on strike days." },
+    { "title": "Moot courts and mock trials", "text": "Moot courts, mock trials, debates, and international moot and debate competitions." },
+    { "title": "Student counsellors", "text": "Student counsellors and guardian meetings. Attendance of 80% is required." },
+    { "title": "Pupillage Advisory Service", "text": "Help with CVs, chambers and mock interviews." }
+  ],
+  "notices": [
+    {
+      "date": "2026-10-27",
+      "title": "University of Hertfordshire LLB (Hons) SDL: January 2027 intake",
+      "summary": "Admissions are open for Levels 4, 5 and 6. After the LLB, students can continue to Bar Training at the University of Hertfordshire. Call the office for fees and the alumni discount terms.",
+      "pinned": true
+    },
+    {
+      "date": "2026-11-08",
+      "title": "University of London LLB: admissions open for the 2026-2027 academic year",
+      "summary": "Examinations will be held in October 2027. The module list for each year is on the Programmes page.",
+      "pinned": false
+    },
+    {
+      "date": "2026-11-02",
+      "title": "A 2026 graduate is to be called to the Bar",
+      "summary": "Congratulations from all of us. The Academy's graduates continue to the Bar through both the University of London and University of Hertfordshire routes.",
+      "pinned": false
+    }
+  ],
+  "scholarships": [
+    { "year": 2019, "url": "https://www.bhuiyanacademyedu.com/scholarship_19.php" },
+    { "year": 2020, "url": "https://www.bhuiyanacademyedu.com/scholarship_20.php" },
+    { "year": 2021, "url": "https://www.bhuiyanacademyedu.com/scholarship_21.php" },
+    { "year": 2024, "url": "https://www.bhuiyanacademyedu.com/scholarship_24.php" },
+    { "year": 2025, "url": "https://www.bhuiyanacademyedu.com/scholarship_25.php" }
+  ],
+  "externalLinks": [
+    { "name": "University of London", "url": "http://www.london.ac.uk" },
+    { "name": "British Council", "url": "http://www.britishcouncil.org" },
+    { "name": "Planetedu", "url": "http://www.planetedu.com" },
+    { "name": "Edexcel International", "url": "http://www.edexcel.com/international" },
+    { "name": "National University, Bangladesh", "url": "http://www.nu.edu.bd" },
+    { "name": "UGC of Bangladesh", "url": "http://www.ugc.gov.bd" },
+    { "name": "Ministry of Education, Bangladesh", "url": "http://www.moedu.gov.bd" }
+  ]
+}

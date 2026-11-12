@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bhuiyan Academy social posters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Golos+Text:wght@400;500;600&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --claret:#6B1F2A; --claret-deep:#4A1118; --claret-ink:#2E0A10;
+  --ink:#1C1A17; --parchment:#F4EFE6; --paper:#FBF8F2;
+  --gold:#B08D57; --gold-soft:#D9C7A3; --slate:#6E6A63; --line:#DDD5C6;
+  --font-display:"Libre Caslon Display",Georgia,serif;
+  --font-serif:"Libre Caslon Text",Georgia,serif;
+  --font-body:"Golos Text",system-ui,sans-serif;
+  --font-mono:"Azeret Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1350px;overflow:hidden;background:var(--parchment)}
+body{position:relative;color:var(--ink);font-family:var(--font-body);-webkit-font-smoothing:antialiased}
+.poster{display:none;position:absolute;inset:0;width:1080px;height:1350px;background:var(--parchment);overflow:hidden}
+body[data-p="1"] #p1{display:block}
+body[data-p="2"] #p2{display:block}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.05;mix-blend-mode:multiply;z-index:50;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.eyebrow{font-family:var(--font-mono);font-weight:500;text-transform:uppercase;letter-spacing:.14em;color:var(--gold)}
+.rule{height:2px;background:var(--gold)}
+.hair{height:1px;background:var(--gold)}
+
+/* ---------- Poster 1 ---------- */
+#p1 .depth{position:absolute;left:0;right:0;bottom:0;height:560px;
+  background:var(--claret) url("../assets/photos/fb-07.jpg") center/cover no-repeat;
+  filter:grayscale(1) contrast(1.1);opacity:.09;mix-blend-mode:multiply;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 55%);mask-image:linear-gradient(180deg,transparent 0%,#000 55%)}
+#p1 .crest{position:absolute;left:84px;top:72px;width:120px;height:auto;display:block}
+#p1 .eyebrow{position:absolute;left:84px;top:226px;font-size:26px}
+#p1 h1{position:absolute;left:84px;top:288px;width:920px;font-family:var(--font-display);font-weight:400;
+  font-size:122px;line-height:1.0;letter-spacing:-.02em;color:var(--claret);white-space:nowrap}
+#p1 .rule{position:absolute;left:84px;top:566px;width:180px}
+#p1 .ledger{position:absolute;left:84px;right:84px;top:600px}
+#p1 .row{display:flex;align-items:baseline;gap:26px;padding:28px 0;border-bottom:1px solid var(--gold)}
+#p1 .row:first-child{padding-top:34px}
+#p1 .row i{flex:none;width:12px;height:12px;background:var(--gold);transform:translateY(-4px)}
+#p1 .row span{font-family:var(--font-serif);font-size:50px;line-height:1.15;color:var(--ink)}
+#p1 .cta{position:absolute;left:84px;right:84px;top:1004px;height:156px;background:var(--claret);border-radius:4px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 52px;color:var(--parchment)}
+#p1 .cta b{font-family:var(--font-body);font-weight:500;font-size:44px;letter-spacing:-.005em}
+#p1 .cta .num{font-family:var(--font-mono);font-weight:500;font-size:44px;letter-spacing:.02em;color:var(--gold-soft)}
+#p1 .strip{position:absolute;left:84px;right:84px;bottom:56px;height:78px;display:flex;align-items:center;justify-content:space-between}
+#p1 .chip{background:var(--claret);height:78px;padding:0 28px;display:flex;align-items:center;border-radius:4px}
+#p1 .chip img{height:34px;width:auto;display:block}
+#p1 .strip p{font-family:var(--font-mono);font-weight:500;font-size:24px;letter-spacing:.08em;color:var(--slate);text-transform:none}
+
+/* ---------- Poster 2 ---------- */
+#p2 .head{position:absolute;left:0;right:0;top:0;height:300px;background:linear-gradient(180deg,var(--claret) 0%,var(--claret-deep) 100%);padding:60px 76px 0}
+#p2 .head .eyebrow{font-size:24px;color:var(--gold-soft)}
+#p2 .head h1{margin-top:22px;font-family:var(--font-display);font-weight:400;font-size:84px;line-height:1;letter-spacing:-.02em;color:var(--parchment);width:900px;text-wrap:balance}
+#p2 .gold{position:absolute;left:0;right:0;top:300px;height:4px;background:var(--gold)}
+#p2 .ledger{position:absolute;left:76px;right:76px;top:318px}
+#p2 .block{padding:20px 0 22px;border-bottom:1px solid var(--gold)}
+#p2 .block:last-child{border-bottom:0}
+#p2 .lab{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+#p2 .lab h2{font-family:var(--font-serif);font-weight:700;font-size:36px;color:var(--claret);letter-spacing:-.005em}
+#p2 .lab span{font-family:var(--font-mono);font-weight:500;font-size:22px;letter-spacing:.06em;color:var(--gold)}
+#p2 .m{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--font-mono);font-weight:400;font-size:27px;line-height:1.1;height:41px;color:var(--ink);font-variant-numeric:tabular-nums}
+#p2 .m em{font-style:normal;color:var(--slate);font-size:25px}
+#p2 .m.sub{padding-left:34px}
+#p2 .note{font-family:var(--font-serif);font-style:italic;font-size:27px;color:var(--claret);height:46px;display:flex;align-items:center}
+#p2 .foot{position:absolute;left:76px;right:76px;bottom:44px;height:96px;display:flex;align-items:center;justify-content:space-between}
+#p2 .foot .hair{position:absolute;left:0;right:0;top:-18px}
+#p2 .foot .badge{height:82px;width:auto;mix-blend-mode:multiply;display:block}
+#p2 .foot .crest{height:92px;width:auto;display:block}
+#p2 .foot .wa{font-family:var(--font-mono);font-weight:500;font-size:32px;letter-spacing:.02em;color:var(--claret);text-align:right;line-height:1.2}
+#p2 .foot .wa small{display:block;font-size:19px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+</style>
+</head>
+<body>
+
+<!-- ============ POSTER 1: Admission intake ============ -->
+<section class="poster" id="p1">
+  <div class="depth"></div>
+  <img class="crest" src="../assets/brand/crest.png" alt="Bhuiyan Academy crest">
+  <p class="eyebrow">Admissions open · January 2027</p>
+  <h1>A UK law degree,<br>in Dhaka.</h1>
+  <div class="rule"></div>
+  <div class="ledger">
+    <div class="row"><i></i><span>UH LLB (Hons) SDL</span></div>
+    <div class="row"><i></i><span>Levels 4–6</span></div>
+    <div class="row"><i></i><span>Route to UH Bar Training</span></div>
+  </div>
+  <div class="cta"><b>Talk to a counsellor</b><span class="num">01755557252</span></div>
+  <div class="strip">
+    <div class="chip"><img src="../assets/partners/uh-logo.svg" alt="University of Hertfordshire"></div>
+    <p>Dhanmondi · Since 1989</p>
+  </div>
+  <div class="grain"></div>
+</section>
+
+<!-- ============ POSTER 2: Modules taught ============ -->
+<section class="poster" id="p2">
+  <div class="head">
+    <p class="eyebrow">University of London · LLB (Hons)</p>
+    <h1>Modules taught at Bhuiyan Academy</h1>
+  </div>
+  <div class="gold"></div>
+  <div class="ledger">
+    <div class="block">
+      <div class="lab"><h2>CertHE/LLB 1st year</h2><span>4 modules · 120 credits</span></div>
+      <div class="m">Contract law <em>LA1040</em></div>
+      <div class="m">Criminal law <em>LA1010</em></div>
+      <div class="m">Legal system and method <em>LA1031</em></div>
+      <div class="m">Public law <em>LA1020</em></div>
+    </div>
+    <div class="block">
+      <div class="lab"><h2>LLB 2nd year</h2><span>4 modules · 120 credits</span></div>
+      <div class="m">Tort law <em>LA2001</em></div>
+      <div class="m">Administrative law <em>LA2008</em></div>
+      <div class="m">EU law <em>LA2024</em></div>
+      <div class="m">Property law <em>LA2003</em></div>
+    </div>
+    <div class="block">
+      <div class="lab"><h2>LLB 3rd year</h2><span>4 modules · 120 credits</span></div>
+      <div class="m">Jurisprudence and legal theory <em>LA3005</em></div>
+      <div class="m">Equity and Trusts <em>LA3002</em></div>
+      <div class="note">And two more modules, chosen from:</div>
+      <div class="m sub">Company law <em>LA3021</em></div>
+      <div class="m sub">Dissertation <em>LA3200</em></div>
+      <div class="m sub">Introduction to Islamic law <em>LA3028</em></div>
+    </div>
+  </div>
+  <div class="foot">
+    <div class="hair"></div>
+    <img class="badge" src="../assets/partners/uol-rtc-badge.jpg" alt="University of London Recognised Teaching Centre">
+    <img class="crest" src="../assets/brand/crest.png" alt="Bhuiyan Academy crest">
+    <div class="wa"><small>WhatsApp</small>01755557252</div>
+  </div>
+  <div class="grain"></div>
+</section>
+
+<script>
+(function(){
+  var p = new URLSearchParams(location.search).get('p') === '2' ? '2' : '1';
+  document.body.setAttribute('data-p', p);
+})();
+</script></body></html>

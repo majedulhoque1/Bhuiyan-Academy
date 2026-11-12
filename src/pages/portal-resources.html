@@ -1,0 +1,45 @@
+<!--
+title: Resources
+description: Notes, past papers and reading lists by module.
+layout: portal
+portal_title: Resources
+-->
+<script src="/js/portal-seed.js"></script>
+<section data-reveal>
+  <div class="page-head reveal-child">
+    <h2 class="page-head__title">Resources by module</h2>
+    <p class="page-head__lead">Notes, past papers and reading lists. Files are not attached in this demonstration.</p>
+  </div>
+  <div class="pgrid">
+    <div class="p-8 stack reveal-child">
+      <div class="tabs" role="group" aria-label="Filter by type">
+        <button type="button" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="notes" aria-pressed="false">Notes</button>
+        <button type="button" data-filter="past-paper" aria-pressed="false">Past papers</button>
+        <button type="button" data-filter="reading" aria-pressed="false">Reading</button>
+      </div>
+      <div class="stack" data-mount="resources"></div>
+    </div>
+    <aside class="p-4 reveal-child">
+      <section class="panel sticky" aria-labelledby="request">
+        <div class="panel__head"><h3 class="panel__title" id="request">Request a resource</h3></div>
+        <form data-form-request novalidate>
+          <div class="field">
+            <label class="field__label" for="req-module">Module</label>
+            <select class="field__input" id="req-module" name="module">
+              <option>Tort law</option><option>Administrative law</option><option>EU law</option>
+              <option>Property law</option><option>Contract law</option><option>Criminal law</option>
+              <option>Public law</option><option>Legal system and method</option><option>Equity and Trusts</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field__label" for="req-what">What do you need</label>
+            <textarea class="field__input" id="req-what" name="what" rows="4"></textarea>
+            <p class="field__error" data-error-for="what" hidden></p>
+          </div>
+          <button class="btn btn--primary" type="submit">Send request</button>
+        </form>
+      </section>
+    </aside>
+  </div>
+</section>

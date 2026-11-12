@@ -1,0 +1,21 @@
+<!--
+title: Notices
+description: The notice board: pinned items first, then newest.
+layout: portal
+portal_title: Notices
+-->
+<script src="/js/portal-seed.js"></script>
+<section data-reveal>
+  <div class="page-head reveal-child">
+    <h2 class="page-head__title">Notice board</h2>
+    <p class="page-head__lead">Pinned notices stay at the top. Notices posted by the office appear here straight away.</p>
+  </div>
+  <section class="panel reveal-child" aria-labelledby="all-notices">
+    <div class="panel__head">
+      <h3 class="panel__title" id="all-notices">All notices</h3>
+      <span class="panel__meta" data-count></span>
+    </div>
+    <p class="panel__lead"><button type="button" class="btn btn--text" data-mark-all>Mark all as read</button></p>
+    <div data-mount="notices"></div>
+  </section>
+</section>

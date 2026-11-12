@@ -1,0 +1,5 @@
+# Client-confidential: pricing and outreach stay local
+proposal/
+pitch/
+__pycache__/
+*.pyc
