@@ -283,8 +283,8 @@ ol.timeline{position:relative;margin:0;padding:0 0 0 1.75rem;list-style:none}
 
 /* 14 · WhatsApp sticky ---------------------------------------------------------- */
 .wa{
-  position:fixed;right:20px;bottom:20px;z-index:70;
-  display:flex;flex-direction:row-reverse;align-items:center;gap:.6rem;text-decoration:none;
+  position:fixed;right:16px;bottom:16px;z-index:70;
+  display:block;text-decoration:none;
 }
 .wa__icon{
   display:grid;place-items:center;width:56px;height:56px;border-radius:50%;
@@ -297,10 +297,11 @@ ol.timeline{position:relative;margin:0;padding:0 0 0 1.75rem;list-style:none}
 .wa__label{
   background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:var(--radius-s);
   padding:.5rem .8rem;font-size:.8125rem;font-weight:500;white-space:nowrap;
-  opacity:0;transform:translateX(8px);pointer-events:none;
+  position:absolute;right:calc(100% + .6rem);top:50%;
+  opacity:0;transform:translate(8px,-50%);pointer-events:none;
   transition:opacity var(--dur-hover) var(--ease-out),transform var(--dur-hover) var(--ease-out);
 }
-.wa:hover .wa__label,.wa:focus-visible .wa__label{opacity:1;transform:none}
+.wa:hover .wa__label,.wa:focus-visible .wa__label{opacity:1;transform:translate(0,-50%)}
 @media (hover:none){.wa__label{display:none}}
 
 /* 15 · Reduced motion -------------------------------------------------------------- */
