@@ -337,6 +337,7 @@ ol.timeline{position:relative;margin:0;padding:0 0 0 1.75rem;list-style:none}
 .person--lead{grid-template-columns:120px 1fr}
 .person--lead .person__media{width:120px}
 .form-wrap{max-width:34rem}
+
 .steps .ledger__row{grid-template-columns:minmax(5.5rem,1fr) 4fr}
 .link-row{display:flex;flex-wrap:wrap;gap:.6rem 1.75rem;margin-top:1.25rem}
 
@@ -379,3 +380,70 @@ ul.mods{padding:0}
   .year{border-bottom:0;padding:1.5rem clamp(20px,2.5vw,36px) .5rem 0}
   .year+.year{border-left:1px solid var(--line);padding-left:clamp(20px,2.5vw,36px)}
 }
+
+/* 18 · Registration: one question per screen ---------------------------------
+   Everything under .is-stepper is added by initStepper (js/site.js). Without the script the form
+   is one plain page: every question shows, and the Back / Continue buttons stay hidden. */
+.qform{display:grid;gap:1.5rem;max-width:34rem}
+.q-progress,.q-back,.q-next{display:none}
+.q-restored{margin:0;padding:.6rem .9rem;border-left:3px solid var(--gold);background:var(--paper);font-size:.9rem;color:var(--slate)}
+.q-restored[hidden]{display:none}
+.q-step{border:0;margin:0;padding:0;min-width:0;display:grid;gap:1rem;align-content:start}
+.q-step+.q-step{padding-top:1.5rem;border-top:1px solid var(--line)}
+.q-title{display:block;padding:0;margin:0 0 .25rem;font-family:var(--font-serif);font-weight:600;font-size:clamp(1.5rem,1.2rem + 1vw,1.9rem);line-height:1.2;letter-spacing:-.01em;color:var(--ink)}
+.q-title:focus{outline:none}
+.q-step>legend.q-title{float:left;width:100%}
+.q-step .field{margin-bottom:0}
+.q-step>.field__hint{margin:0}
+
+.options{display:grid;gap:.65rem}
+.options--2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.option{
+  display:grid;gap:.15rem;align-content:center;min-height:3.5rem;padding:.8rem 1rem;cursor:pointer;
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-m);
+  transition:border-color var(--dur-hover),background-color var(--dur-hover),box-shadow var(--dur-hover);
+}
+.option input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.option__main{font-weight:600;color:var(--ink)}
+.option__sub{font-size:.8125rem;color:var(--slate);line-height:1.35}
+.option--plain{min-height:3.25rem}
+.option:hover{border-color:var(--slate)}
+.option:has(input:checked){border-color:var(--claret);background:rgba(107,31,42,.05);box-shadow:inset 0 0 0 1px var(--claret)}
+.option:has(input:focus-visible){outline:2px solid var(--gold);outline-offset:2px}
+
+.q-more{border-top:1px solid var(--line);padding-top:.75rem}
+.q-more summary{cursor:pointer;color:var(--claret);font-weight:500;font-size:.9375rem;padding:.35rem 0}
+.q-more[open] summary{margin-bottom:1rem}
+.q-more .field+.field{margin-top:1rem}
+
+.q-nav{display:grid;gap:.75rem}
+.q-send{width:100%}
+.q-footnote{margin:0}
+
+.is-stepper .q-progress{display:flex;align-items:center;gap:1rem}
+.q-progress__count{font-size:.875rem;font-weight:500;color:var(--slate);font-variant-numeric:tabular-nums;min-width:2.75rem}
+.q-progress__bar{flex:1;height:3px;border-radius:3px;background:var(--line);overflow:hidden}
+.q-progress__fill{display:block;height:100%;width:33%;background:var(--claret);border-radius:inherit;transition:width var(--dur-reveal) var(--ease-out)}
+.is-stepper .q-step{display:none}
+.is-stepper .q-step.is-current{display:grid;animation:q-in 320ms var(--ease-out) both}
+.is-stepper .q-step+.q-step{padding-top:0;border-top:0}
+.is-stepper.is-back .q-step.is-current{animation-name:q-in-back}
+@keyframes q-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes q-in-back{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.is-stepper .q-step.is-current{animation:none}.q-progress__fill{transition:none}}
+@media (min-width:900px){.is-stepper .q-step.is-current{min-height:22rem}}
+
+.is-stepper .q-nav{grid-template-columns:auto minmax(0,1fr);align-items:center}
+.is-stepper .q-back{display:inline-flex}
+.is-stepper .q-next{display:inline-flex;grid-column:2}
+.is-stepper .q-send{display:none;grid-column:2}
+.is-stepper.is-first .q-back{display:none}
+.is-stepper.is-first .q-nav{grid-template-columns:1fr}
+.is-stepper.is-first .q-next{grid-column:1}
+.is-stepper.is-last .q-next{display:none}
+.is-stepper.is-last .q-send{display:inline-flex}
+.is-stepper.is-first.is-last .q-nav{grid-template-columns:1fr}
+.is-stepper.is-first.is-last .q-send{grid-column:1}
+.is-stepper .q-footnote{display:none}
+.is-stepper.is-last .q-footnote{display:block}
+@media (max-width:899px){.qform-col{order:-1}}

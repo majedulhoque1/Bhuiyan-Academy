@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Bhuiyan Academy preview: static page builder.
 
+The student/staff portal demo is archived in archive/portal-demo/ and is NOT built or
+deployed (the Academy only needs the website). The portal layout code below is dormant.
+
     python build.py
 
 Reads src/pages/*.html, wraps each in the partials from src/partials/ and writes
@@ -176,7 +179,7 @@ def missing_refs(doc):
 
 
 def main():
-    parts = {n: read(PARTS / (n + ".html")) for n in ("head", "header", "footer", "portal-shell", "office-shell")}
+    parts = {n: read(PARTS / (n + ".html")) for n in ("head", "header", "footer")}
     sources = sorted(PAGES.glob("*.html"))
     if not sources:
         print("build: no pages in src/pages/")
